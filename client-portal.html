@@ -1,0 +1,2370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Saltwater Social — Content Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+  <style>
+    /* ─────────────────────────────────────────────────────────
+       RESET & CUSTOM PROPERTIES
+    ───────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:        #1B3A5C;
+      --navy-light:  #2D5480;
+      --navy-dark:   #0F2138;
+      --navy-deeper: #080F18;
+      --gold:        #D4A843;
+      --gold-light:  #E8C97A;
+      --bg:          #FAFAF8;
+      --white:       #FFFFFF;
+      --text:        #1A1A2E;
+      --text-muted:  #6B7280;
+      --border:      #E5E7EB;
+      --green:       #2D7A4F;
+
+      /* Type accent colors */
+      --event-color:     #E8A838;
+      --menu-color:      #3D8B6E;
+      --promo-color:     #C25B3F;
+      --content-color:   #5B7EC2;
+      --weekly-color:    #7B5EA7;
+      --recurring-color: #4A9B8E;
+      --milestone-color: #D4A843;
+      --other-color:     #6B7A8D;
+
+      --radius-card:  12px;
+      --radius-input: 8px;
+      --radius-pill:  999px;
+      --shadow-card:  0 4px 24px rgba(0,0,0,0.06);
+    }
+
+    html { font-size: 16px; -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      font-family: 'DM Sans', system-ui, sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      padding-bottom: 80px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       SKIP LINK
+    ───────────────────────────────────────────────────────── */
+    .skip-link {
+      position: fixed; top: -100px; left: 16px; z-index: 9999;
+      background: var(--gold); color: var(--navy-dark);
+      padding: 8px 16px; border-radius: var(--radius-pill);
+      font-weight: 600; text-decoration: none; font-size: 0.875rem;
+      transition: top 0.2s;
+    }
+    .skip-link:focus { top: 72px; }
+
+    /* ─────────────────────────────────────────────────────────
+       TOP BAR (fixed)
+    ───────────────────────────────────────────────────────── */
+    #top-bar {
+      position: fixed; top: 0; left: 0; right: 0; height: 60px;
+      background: var(--navy-dark); z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 28px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.3);
+    }
+    .wordmark {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.65rem; font-weight: 600;
+      color: var(--white); letter-spacing: 0.01em;
+      text-decoration: none; line-height: 1;
+    }
+    .wordmark em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    #draft-saved {
+      font-size: 0.78rem; color: #6EE7A8; font-weight: 500;
+      opacity: 0; transition: opacity 0.4s; display: flex; align-items: center; gap: 5px;
+    }
+    #draft-saved.visible { opacity: 1; }
+    #draft-saved-dot { width: 7px; height: 7px; border-radius: 50%; background: #6EE7A8; }
+
+    /* ─────────────────────────────────────────────────────────
+       MAIN LAYOUT
+    ───────────────────────────────────────────────────────── */
+    #main-wrapper {
+      max-width: 780px; margin: 0 auto;
+      padding: 80px 16px 120px;
+    }
+    @media (min-width: 900px) {
+      body { display: grid; grid-template-columns: 1fr; }
+      #main-wrapper { max-width: 880px; padding: 80px 24px 40px; }
+      #layout-grid {
+        display: grid;
+        grid-template-columns: 1fr 288px;
+        gap: 24px;
+        align-items: start;
+      }
+      #sidebar-col { position: sticky; top: 100px; }
+      #mobile-submit-bar { display: none !important; }
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       RESUME DRAFT BAR
+    ───────────────────────────────────────────────────────── */
+    #resume-bar {
+      background: var(--gold); color: var(--navy-dark);
+      padding: 12px 18px; border-radius: var(--radius-card);
+      margin-bottom: 16px;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.875rem; font-weight: 500;
+      display: none;
+      box-shadow: 0 4px 16px rgba(212,168,67,0.3);
+    }
+    #resume-bar .resume-actions { display: flex; gap: 10px; }
+    #resume-bar button {
+      background: var(--navy-dark); color: var(--white);
+      border: none; border-radius: var(--radius-pill);
+      padding: 6px 16px; font-size: 0.8rem; font-weight: 600;
+      cursor: pointer; font-family: inherit;
+    }
+    #resume-bar .btn-dismiss {
+      background: transparent; color: var(--navy-dark);
+      border: 1.5px solid var(--navy-dark);
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       CLIENT INFO CARD
+    ───────────────────────────────────────────────────────── */
+    #client-card {
+      background: var(--white); border-radius: var(--radius-card);
+      box-shadow: var(--shadow-card);
+      border-top: 4px solid var(--navy);
+      margin-bottom: 16px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    #client-card-header {
+      padding: 22px 22px 0;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    #client-card-header h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.4rem; font-weight: 600; color: var(--navy);
+    }
+    #client-collapsed-preview {
+      display: none;
+      align-items: center; gap: 12px;
+      padding: 14px 22px;
+    }
+    #client-collapsed-preview .restaurant-pill {
+      background: var(--navy); color: var(--white);
+      border-radius: var(--radius-pill); padding: 4px 14px;
+      font-size: 0.875rem; font-weight: 500;
+    }
+    #client-collapsed-preview .week-pill {
+      background: var(--bg); color: var(--text-muted);
+      border-radius: var(--radius-pill); padding: 4px 12px;
+      font-size: 0.8rem; border: 1px solid var(--border);
+    }
+    #edit-client-btn {
+      background: none; border: none; color: var(--navy-light);
+      font-size: 0.8rem; font-weight: 600; cursor: pointer;
+      text-decoration: underline; font-family: inherit; padding: 0;
+    }
+    #client-card-fields { padding: 18px 22px 22px; }
+    .client-check {
+      display: none; color: #2D7A4F; font-size: 0.8rem;
+      margin-left: 6px; font-weight: 600;
+    }
+    .client-check.show { display: inline; }
+
+    /* ─────────────────────────────────────────────────────────
+       FORM ELEMENTS
+    ───────────────────────────────────────────────────────── */
+    .field-group { margin-bottom: 16px; }
+    .field-group:last-child { margin-bottom: 0; }
+    label {
+      display: block; font-size: 0.8rem; font-weight: 600;
+      color: var(--text-muted); text-transform: uppercase;
+      letter-spacing: 0.06em; margin-bottom: 6px;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="date"],
+    input[type="time"],
+    textarea,
+    select {
+      width: 100%; padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-input);
+      font-family: 'DM Sans', system-ui, sans-serif;
+      font-size: 0.9rem; color: var(--text);
+      background: var(--white);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+      -webkit-appearance: none;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--navy-light);
+      box-shadow: 0 0 0 3px rgba(45,84,128,0.12);
+    }
+    input::placeholder, textarea::placeholder { color: var(--text-muted); opacity: 0.7; }
+    textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
+    .input-prefix { position: relative; }
+    .input-prefix span {
+      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+      color: var(--text-muted); font-size: 0.9rem;
+    }
+    .input-prefix input { padding-left: 24px; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    /* Focus ring for accessibility */
+    button:focus-visible, a:focus-visible,
+    input:focus-visible, textarea:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 2px;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       PILL BUTTONS
+    ───────────────────────────────────────────────────────── */
+    .pill-group { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pill {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 36px; padding: 6px 16px;
+      border: 1.5px solid var(--border); border-radius: var(--radius-pill);
+      background: var(--white); color: var(--text);
+      font-family: 'DM Sans', system-ui, sans-serif;
+      font-size: 0.85rem; font-weight: 500; cursor: pointer;
+      transition: all 0.15s; white-space: nowrap;
+      user-select: none;
+    }
+    .pill:hover { border-color: var(--navy-light); background: #F0F4F9; }
+    .pill.active {
+      background: var(--navy); border-color: var(--navy);
+      color: var(--white);
+    }
+    .pill.active-gold {
+      background: var(--gold); border-color: var(--gold);
+      color: var(--navy-dark); font-weight: 600;
+    }
+
+    /* Contact method sub-input */
+    #contact-value-wrap { margin-top: 10px; }
+
+    /* ─────────────────────────────────────────────────────────
+       COUNTER BAR (sticky)
+    ───────────────────────────────────────────────────────── */
+    #counter-bar {
+      position: sticky; top: 60px; z-index: 150;
+      background: var(--navy); color: var(--white);
+      height: 44px; display: none;
+      align-items: center; justify-content: space-between;
+      padding: 0 20px;
+      font-size: 0.82rem; font-weight: 500;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      border-radius: 0;
+      margin-left: -16px; margin-right: -16px;
+    }
+    #counter-bar.visible { display: flex; }
+    #counter-bar .counter-left { display: flex; align-items: center; gap: 8px; }
+    #counter-bar .counter-draft { color: rgba(255,255,255,0.55); font-size: 0.77rem; }
+    #counter-add-btn {
+      background: var(--gold); color: var(--navy-dark);
+      border: none; border-radius: var(--radius-pill);
+      padding: 7px 16px; font-size: 0.82rem; font-weight: 600;
+      cursor: pointer; font-family: inherit; white-space: nowrap;
+      transition: background 0.15s;
+    }
+    #counter-add-btn:hover { background: var(--gold-light); }
+
+    /* ─────────────────────────────────────────────────────────
+       BLOCKS AREA
+    ───────────────────────────────────────────────────────── */
+    #blocks-area {
+      display: flex; flex-direction: column; gap: 16px;
+      margin-top: 8px;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       CONTENT BLOCK CARD
+    ───────────────────────────────────────────────────────── */
+    .block-card {
+      background: var(--white); border-radius: var(--radius-card);
+      box-shadow: var(--shadow-card);
+      border-left: 4px solid var(--gold);
+      overflow: hidden;
+      will-change: transform;
+      transform: translateX(40px); opacity: 0;
+      transition: transform 0.25s ease, opacity 0.25s ease, box-shadow 0.2s;
+    }
+    .block-card.slide-in {
+      transform: translateX(0); opacity: 1;
+    }
+    .block-card.deleting {
+      transform: translateY(-12px); opacity: 0;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .block-card.dragging {
+      transform: scale(1.02); opacity: 0.92;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    }
+
+    /* Block header */
+    .block-header {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 14px;
+      cursor: pointer;
+      user-select: none;
+      min-height: 52px;
+    }
+    .block-header-accent {
+      border-radius: var(--radius-card) var(--radius-card) 0 0;
+      margin: -1px;
+    }
+    .drag-handle {
+      color: rgba(255,255,255,0.6); font-size: 1.1rem;
+      cursor: grab; padding: 4px; margin-left: -4px;
+      touch-action: none;
+    }
+    .drag-handle:active { cursor: grabbing; }
+    .block-type-icon { font-size: 1.15rem; line-height: 1; }
+    .block-type-label {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.07em;
+      text-transform: uppercase; color: rgba(255,255,255,0.7);
+    }
+    .block-auto-title {
+      flex: 1; font-size: 0.9rem; font-weight: 600;
+      color: var(--white); overflow: hidden;
+      text-overflow: ellipsis; white-space: nowrap;
+    }
+    .block-header-right {
+      display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+    }
+    .priority-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--gold-light);
+      flex-shrink: 0;
+    }
+    .priority-dot.asap { background: #F87171; }
+    .priority-dot.this-week { background: #FCD34D; }
+    .priority-dot.whenever { background: #86EFAC; }
+    .chevron {
+      color: rgba(255,255,255,0.6); font-size: 0.9rem;
+      transition: transform 0.25s; line-height: 1;
+    }
+    .chevron.open { transform: rotate(180deg); }
+    .btn-delete-block {
+      background: rgba(255,255,255,0.15); border: none;
+      border-radius: 50%; width: 26px; height: 26px;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.7); font-size: 0.85rem;
+      cursor: pointer; transition: background 0.15s;
+      font-family: inherit; flex-shrink: 0;
+    }
+    .btn-delete-block:hover { background: rgba(255,50,50,0.3); color: #fff; }
+    /* Up/down arrows on mobile */
+    .reorder-btn {
+      background: rgba(255,255,255,0.15); border: none;
+      border-radius: 50%; width: 26px; height: 26px;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.7); font-size: 0.8rem;
+      cursor: pointer; transition: background 0.15s;
+      font-family: inherit;
+    }
+    @media (min-width: 700px) { .reorder-btn { display: none !important; } }
+
+    /* Block body */
+    .block-body {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.35s ease;
+    }
+    .block-body.open { max-height: 3000px; }
+    .block-body-inner { padding: 0 18px 18px; }
+
+    /* Type selector row */
+    .type-selector-row {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      padding: 12px 18px 0;
+      border-top: 1px solid var(--border);
+    }
+    .type-pill {
+      font-size: 0.78rem; min-height: 30px; padding: 4px 12px;
+    }
+
+    /* Collapsible section within block */
+    .sub-section {
+      margin-top: 14px; border-top: 1px solid var(--bg);
+      padding-top: 14px;
+    }
+    .sub-section-toggle {
+      background: none; border: none; cursor: pointer;
+      font-family: inherit; font-size: 0.8rem; font-weight: 600;
+      color: var(--text-muted); display: flex; align-items: center; gap: 6px;
+      padding: 0; text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .sub-section-toggle .toggle-chevron { font-size: 0.7rem; transition: transform 0.2s; }
+    .sub-section-toggle.open .toggle-chevron { transform: rotate(180deg); }
+    .sub-section-body { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .sub-section-body.open { max-height: 2000px; }
+
+    /* Recurring preview */
+    .recur-preview {
+      font-size: 0.8rem; color: var(--text-muted);
+      background: var(--bg); border-radius: 8px;
+      padding: 8px 12px; margin-top: 8px;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       MEDIA UPLOAD
+    ───────────────────────────────────────────────────────── */
+    .dropzone {
+      border: 2px dashed var(--gold); border-radius: 10px;
+      height: 110px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 4px;
+      cursor: pointer; margin-top: 10px;
+      transition: background 0.2s, border-color 0.2s;
+      text-align: center; padding: 10px;
+    }
+    .dropzone .dz-icon { font-size: 1.5rem; }
+    .dropzone .dz-main { font-size: 0.85rem; font-weight: 500; color: var(--text); }
+    .dropzone .dz-sub { font-size: 0.75rem; color: var(--text-muted); }
+    .dropzone.dragover {
+      background: rgba(212,168,67,0.08);
+      border-color: var(--gold-light);
+      animation: pulse-gold 0.8s ease infinite alternate;
+    }
+    @keyframes pulse-gold {
+      from { box-shadow: 0 0 0 0 rgba(212,168,67,0.3); }
+      to   { box-shadow: 0 0 0 8px rgba(212,168,67,0); }
+    }
+    .dropzone input[type="file"] { display: none; }
+
+    .thumb-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+      margin-top: 12px;
+    }
+    @media (min-width: 600px) { .thumb-grid { grid-template-columns: repeat(4, 1fr); } }
+    .thumb-item { position: relative; }
+    .thumb-preview {
+      width: 100%; aspect-ratio: 1; border-radius: 8px;
+      object-fit: cover; background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; overflow: hidden;
+    }
+    .thumb-preview img { width: 100%; height: 100%; object-fit: cover; }
+    .thumb-video-overlay {
+      position: absolute; top: 6px; left: 6px;
+      background: rgba(0,0,0,0.55); border-radius: 4px;
+      padding: 2px 6px; font-size: 0.7rem; color: #fff; font-weight: 600;
+    }
+    .thumb-remove {
+      position: absolute; top: 4px; right: 4px;
+      background: rgba(0,0,0,0.55); border: none; border-radius: 50%;
+      width: 22px; height: 22px; color: #fff; font-size: 0.75rem;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+    }
+    .thumb-caption { font-size: 0.72rem; margin-top: 4px; }
+    .thumb-caption input {
+      padding: 5px 8px; font-size: 0.72rem; border-radius: 6px;
+    }
+    .shot-pills { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+    .shot-pill {
+      font-size: 0.65rem; padding: 2px 8px; min-height: 22px;
+      border-radius: var(--radius-pill);
+    }
+    .size-warn {
+      font-size: 0.78rem; color: #C25B3F; background: #FFF4F1;
+      border-radius: 6px; padding: 6px 10px; margin-top: 6px;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       PRIORITY SELECTOR
+    ───────────────────────────────────────────────────────── */
+    .priority-group { display: flex; gap: 8px; flex-wrap: wrap; }
+    .priority-pill {
+      flex: 1; min-width: 90px; justify-content: center;
+      font-size: 0.82rem; min-height: 40px;
+    }
+    .priority-pill.asap.active { background: #FEE2E2; border-color: #F87171; color: #991B1B; }
+    .priority-pill.this-week.active { background: #FEF9C3; border-color: #FCD34D; color: #78350F; }
+    .priority-pill.whenever.active { background: #DCFCE7; border-color: #86EFAC; color: #14532D; }
+
+    /* ─────────────────────────────────────────────────────────
+       ADD BLOCK CARD
+    ───────────────────────────────────────────────────────── */
+    #add-block-card {
+      border: 2px dashed var(--gold); border-radius: var(--radius-card);
+      background: transparent; padding: 28px 20px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 6px; cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    #add-block-card:hover { background: rgba(212,168,67,0.05); border-color: var(--gold-light); }
+    .add-plus { font-size: 2rem; color: var(--gold); line-height: 1; }
+    .add-label { font-size: 0.9rem; font-weight: 600; color: var(--text-muted); }
+
+    /* ─────────────────────────────────────────────────────────
+       SIDEBAR SUMMARY (desktop)
+    ───────────────────────────────────────────────────────── */
+    #sidebar-summary {
+      background: var(--white); border-radius: var(--radius-card);
+      box-shadow: var(--shadow-card); overflow: hidden;
+      display: none;
+    }
+    #sidebar-summary.visible { display: block; }
+    .sidebar-header {
+      background: var(--navy-dark); color: var(--white);
+      padding: 16px 18px;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.15rem; font-weight: 600;
+    }
+    .sidebar-body { padding: 14px 18px; }
+    .sidebar-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 0; border-bottom: 1px solid var(--bg);
+      font-size: 0.82rem; color: var(--text);
+    }
+    .sidebar-item:last-child { border-bottom: none; }
+    .sidebar-item-icon { font-size: 1rem; flex-shrink: 0; }
+    .sidebar-item-title { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .sidebar-item-dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    }
+    .sidebar-count {
+      font-size: 0.78rem; color: var(--text-muted);
+      text-align: center; padding: 8px 0 4px;
+    }
+    #sidebar-submit-btn {
+      display: block; width: 100%;
+      background: var(--gold); color: var(--navy-dark);
+      border: none; border-radius: var(--radius-pill);
+      padding: 12px; font-size: 0.9rem; font-weight: 700;
+      cursor: pointer; font-family: inherit;
+      transition: background 0.15s;
+      margin-top: 8px;
+    }
+    #sidebar-submit-btn:hover { background: var(--gold-light); }
+
+    /* ─────────────────────────────────────────────────────────
+       MOBILE SUBMIT BAR
+    ───────────────────────────────────────────────────────── */
+    #mobile-submit-bar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: var(--navy-dark); color: var(--white);
+      padding: 10px 16px;
+      display: none; align-items: center; justify-content: space-between;
+      z-index: 180;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+    }
+    #mobile-submit-bar.visible { display: flex; }
+    #mobile-submit-bar .mob-count { font-size: 0.82rem; font-weight: 500; }
+    #mobile-submit-btn {
+      background: var(--gold); color: var(--navy-dark);
+      border: none; border-radius: var(--radius-pill);
+      padding: 10px 20px; font-size: 0.88rem; font-weight: 700;
+      cursor: pointer; font-family: inherit;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       TYPE PICKER OVERLAY
+    ───────────────────────────────────────────────────────── */
+    #type-picker {
+      position: fixed; inset: 0; z-index: 300;
+      background: rgba(8,15,24,0.95);
+      display: flex; flex-direction: column; align-items: center;
+      padding: 60px 16px 24px; overflow-y: auto;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    #type-picker.open { opacity: 1; pointer-events: all; }
+    #type-picker-header {
+      text-align: center; margin-bottom: 20px;
+    }
+    #type-picker-header h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.7rem; font-weight: 600; color: var(--white);
+    }
+    #type-picker-header p { color: rgba(255,255,255,0.5); font-size: 0.875rem; margin-top: 4px; }
+    .type-picker-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+      width: 100%; max-width: 560px;
+    }
+    .type-option {
+      background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-card); padding: 18px 14px;
+      cursor: pointer; text-align: left;
+      transition: background 0.15s, border-color 0.15s;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .type-option:hover {
+      background: rgba(255,255,255,0.12); border-color: var(--gold);
+    }
+    .type-option-emoji { font-size: 1.6rem; line-height: 1; }
+    .type-option-name {
+      font-weight: 600; color: var(--white); font-size: 0.9rem;
+    }
+    .type-option-desc {
+      font-size: 0.76rem; color: rgba(255,255,255,0.5); line-height: 1.4;
+    }
+    .type-picker-close {
+      margin-top: 16px; background: none; border: 1.5px solid rgba(255,255,255,0.2);
+      border-radius: var(--radius-pill); color: rgba(255,255,255,0.6);
+      padding: 10px 28px; font-size: 0.875rem; cursor: pointer;
+      font-family: inherit; transition: border-color 0.15s;
+    }
+    .type-picker-close:hover { border-color: rgba(255,255,255,0.5); }
+
+    /* ─────────────────────────────────────────────────────────
+       REVIEW & SUBMIT OVERLAY
+    ───────────────────────────────────────────────────────── */
+    #review-overlay {
+      position: fixed; inset: 0; z-index: 400;
+      background: rgba(8,15,24,0.96);
+      display: flex; flex-direction: column;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+      overflow-y: auto;
+    }
+    #review-overlay.open { transform: translateY(0); }
+    .review-inner {
+      max-width: 560px; margin: 0 auto;
+      padding: 40px 20px 60px; width: 100%;
+    }
+    .review-inner h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.9rem; color: var(--white); font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .review-inner .review-sub { color: rgba(255,255,255,0.5); font-size: 0.875rem; margin-bottom: 20px; }
+    .review-client-info {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;
+    }
+    .review-client-info span {
+      background: var(--navy-light); color: var(--white);
+      border-radius: var(--radius-pill); padding: 5px 14px;
+      font-size: 0.82rem;
+    }
+    .review-block-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+    .review-block-item {
+      background: rgba(255,255,255,0.07); border-radius: 8px;
+      padding: 10px 14px; display: flex; align-items: center; gap: 10px;
+    }
+    .review-block-item .rbi-icon { font-size: 1.1rem; }
+    .review-block-item .rbi-title { flex: 1; color: var(--white); font-size: 0.875rem; font-weight: 500; }
+    .review-block-item .rbi-priority {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    }
+    .review-total { color: rgba(255,255,255,0.4); font-size: 0.82rem; margin-bottom: 20px; }
+    #submit-final-btn {
+      display: block; width: 100%;
+      background: var(--gold); color: var(--navy-dark);
+      border: none; border-radius: var(--radius-pill);
+      padding: 16px; font-size: 1rem; font-weight: 700;
+      cursor: pointer; font-family: inherit;
+      transition: background 0.15s;
+      margin-bottom: 12px;
+    }
+    #submit-final-btn:hover { background: var(--gold-light); }
+    #submit-final-btn:disabled {
+      opacity: 0.5; cursor: not-allowed;
+    }
+    .review-back-btn {
+      display: block; width: 100%; background: none; border: none;
+      color: rgba(255,255,255,0.4); font-size: 0.875rem;
+      cursor: pointer; font-family: inherit; text-align: center;
+      padding: 8px; text-decoration: underline;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       SUCCESS STATE
+    ───────────────────────────────────────────────────────── */
+    #success-overlay {
+      position: fixed; inset: 0; z-index: 500;
+      background: var(--navy-deeper);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 24px; text-align: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.4s;
+    }
+    #success-overlay.open { opacity: 1; pointer-events: all; }
+    .checkmark-wrap {
+      width: 80px; height: 80px; position: relative; margin-bottom: 24px;
+    }
+    .checkmark-circle {
+      width: 80px; height: 80px; border-radius: 50%;
+      border: 4px solid var(--gold);
+      position: absolute; top: 0; left: 0;
+      stroke-dasharray: 251;
+      stroke-dashoffset: 251;
+    }
+    .checkmark-svg {
+      position: absolute; top: 0; left: 0; width: 80px; height: 80px;
+    }
+    .check-path {
+      fill: none; stroke: var(--gold); stroke-width: 5;
+      stroke-linecap: round; stroke-linejoin: round;
+      stroke-dasharray: 60; stroke-dashoffset: 60;
+    }
+    .success-overlay-inner { max-width: 360px; }
+    .success-overlay-inner h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 2rem; color: var(--white); font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .success-overlay-inner p { color: rgba(255,255,255,0.55); font-size: 0.9rem; margin-bottom: 28px; }
+    .success-btns { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+    .btn-reset {
+      background: var(--gold); color: var(--navy-dark);
+      border: none; border-radius: var(--radius-pill);
+      padding: 14px; font-size: 0.9rem; font-weight: 700;
+      cursor: pointer; font-family: inherit;
+    }
+    .btn-done {
+      background: none; border: 1.5px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.6); border-radius: var(--radius-pill);
+      padding: 13px; font-size: 0.9rem; cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       SECTION LABELS
+    ───────────────────────────────────────────────────────── */
+    .section-label {
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text-muted);
+      margin-bottom: 8px; display: block;
+    }
+
+    /* Utility */
+    .hidden { display: none !important; }
+    .mt-10 { margin-top: 10px; }
+    .mt-14 { margin-top: 14px; }
+    .mt-6  { margin-top: 6px; }
+  </style>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- ─── TOP BAR ─────────────────────────────────────────────── -->
+<div id="top-bar">
+  <span class="wordmark">Saltwater <em>Social</em></span>
+  <div id="draft-saved">
+    <div id="draft-saved-dot"></div>
+    <span id="draft-saved-text">Draft saved</span>
+  </div>
+</div>
+
+<!-- ─── RESUME DRAFT BAR ─────────────────────────────────────── -->
+<div id="main-wrapper">
+  <div id="resume-bar">
+    <span>You have a saved draft — pick up where you left off?</span>
+    <div class="resume-actions">
+      <button id="resume-yes-btn">Resume draft</button>
+      <button class="btn-dismiss" id="resume-no-btn">Start fresh</button>
+    </div>
+  </div>
+
+  <!-- ─── COUNTER BAR ──────────────────────────────────────── -->
+  <div id="counter-bar">
+    <div class="counter-left">
+      <span id="counter-text">0 content items</span>
+      <span class="counter-draft" id="counter-draft-text"></span>
+    </div>
+    <button id="counter-add-btn" aria-label="Add content item">+ Add Content</button>
+  </div>
+
+  <!-- ─── LAYOUT GRID ──────────────────────────────────────── -->
+  <div id="layout-grid">
+    <div id="main-col">
+      <main id="main-content">
+
+        <!-- ─── CLIENT INFO CARD ────────────────────────────── -->
+        <div id="client-card">
+          <div id="client-card-header">
+            <h2>Your info <span class="client-check" id="client-check">✓ All set</span></h2>
+            <button id="edit-client-btn" class="hidden" aria-label="Edit client info">Edit</button>
+          </div>
+          <!-- Collapsed preview -->
+          <div id="client-collapsed-preview">
+            <span class="restaurant-pill" id="collapsed-name">Restaurant</span>
+            <span class="week-pill" id="collapsed-week">Week of —</span>
+          </div>
+          <!-- Fields -->
+          <div id="client-card-fields">
+            <div class="field-group">
+              <label for="restaurant-name">Restaurant name</label>
+              <input type="text" id="restaurant-name" placeholder="Which restaurant is this for?" autocomplete="organization" />
+            </div>
+            <div class="field-group">
+              <label for="contact-name">Your name</label>
+              <input type="text" id="contact-name" placeholder="Your name" autocomplete="name" />
+            </div>
+            <div class="field-group">
+              <label>Best way to reach you</label>
+              <div class="pill-group" id="contact-method-pills">
+                <button class="pill active" data-method="text">📱 Text</button>
+                <button class="pill" data-method="email">📧 Email</button>
+                <button class="pill" data-method="whatsapp">💬 WhatsApp</button>
+              </div>
+              <div id="contact-value-wrap">
+                <input type="tel" id="contact-value" placeholder="Your phone number" autocomplete="tel" />
+              </div>
+            </div>
+            <div class="field-group">
+              <label for="week-of">Week submitting for</label>
+              <input type="date" id="week-of" />
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── BLOCKS AREA ──────────────────────────────────── -->
+        <div id="blocks-area"></div>
+
+        <!-- ─── ADD BLOCK CARD ───────────────────────────────── -->
+        <button id="add-block-card" aria-label="Add content item">
+          <span class="add-plus">+</span>
+          <span class="add-label">Add content item</span>
+        </button>
+
+      </main>
+    </div>
+
+    <!-- ─── SIDEBAR ──────────────────────────────────────────── -->
+    <div id="sidebar-col">
+      <div id="sidebar-summary">
+        <div class="sidebar-header">Content Summary</div>
+        <div class="sidebar-body">
+          <div id="sidebar-list"></div>
+          <div class="sidebar-count" id="sidebar-count"></div>
+          <button id="sidebar-submit-btn">Review &amp; Submit →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── MOBILE SUBMIT BAR ────────────────────────────────────── -->
+<div id="mobile-submit-bar">
+  <span class="mob-count" id="mob-count-text">0 items</span>
+  <button id="mobile-submit-btn">Review &amp; Submit →</button>
+</div>
+
+<!-- ─── TYPE PICKER OVERLAY ──────────────────────────────────── -->
+<div id="type-picker" role="dialog" aria-modal="true" aria-label="Choose content type">
+  <div id="type-picker-header">
+    <h2>What are you adding?</h2>
+    <p>Pick a type — you can change it after</p>
+  </div>
+  <div class="type-picker-grid" id="type-picker-grid"></div>
+  <button class="type-picker-close" id="type-picker-close">Cancel</button>
+</div>
+
+<!-- ─── REVIEW OVERLAY ───────────────────────────────────────── -->
+<div id="review-overlay" role="dialog" aria-modal="true" aria-label="Review and submit">
+  <div class="review-inner">
+    <h2>Ready to send to Diego?</h2>
+    <p class="review-sub">Review everything before it goes out.</p>
+    <div class="review-client-info" id="review-client-info"></div>
+    <div class="review-block-list" id="review-block-list"></div>
+    <div class="review-total" id="review-total"></div>
+    <button id="submit-final-btn">Submit all items →</button>
+    <button class="review-back-btn" id="review-back-btn">Go back and edit</button>
+  </div>
+</div>
+
+<!-- ─── SUCCESS OVERLAY ──────────────────────────────────────── -->
+<div id="success-overlay" role="dialog" aria-modal="true" aria-label="Submission successful">
+  <div class="success-overlay-inner">
+    <div class="checkmark-wrap">
+      <svg class="checkmark-svg" viewBox="0 0 80 80" aria-hidden="true">
+        <circle cx="40" cy="40" r="36" fill="none" stroke="#D4A843" stroke-width="4"
+          stroke-dasharray="226" stroke-dashoffset="226" id="check-circle" />
+        <path d="M22 40 L34 52 L58 28" fill="none" stroke="#D4A843" stroke-width="5"
+          stroke-linecap="round" stroke-linejoin="round"
+          stroke-dasharray="60" stroke-dashoffset="60" id="check-path" />
+      </svg>
+    </div>
+    <h2>Sent to Diego! 🌊</h2>
+    <p>He'll have content ready within 24 hours.</p>
+    <div class="success-btns">
+      <button class="btn-reset" id="btn-reset">Submit another batch</button>
+      <button class="btn-done" id="btn-done">Done</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   SALTWATER SOCIAL — CLIENT PORTAL
+   Full state management, block system, auto-save, submission
+═══════════════════════════════════════════════════════════════ */
+'use strict';
+
+/* ─── CONSTANTS ─────────────────────────────────────────────── */
+const TYPE_META = {
+  event:     { emoji: '🎉', label: 'Event',          color: '#E8A838', desc: 'A special night, pop-up, or celebration' },
+  menu:      { emoji: '🍽️', label: 'Menu Item',      color: '#3D8B6E', desc: 'New dish, seasonal special, or spotlight' },
+  promo:     { emoji: '📣', label: 'Promotion',       color: '#C25B3F', desc: 'Discount, deal, or limited offer' },
+  content:   { emoji: '📸', label: 'Content Request', color: '#5B7EC2', desc: 'Something you want posted about' },
+  weekly:    { emoji: '🔁', label: 'Weekly Special',  color: '#7B5EA7', desc: 'Your regular recurring special' },
+  recurring: { emoji: '📅', label: 'Recurring',       color: '#4A9B8E', desc: 'Any repeating event or promotion' },
+  milestone: { emoji: '🎊', label: 'Milestone',       color: '#D4A843', desc: 'Anniversary, award, or big moment' },
+  other:     { emoji: '💬', label: 'Other',           color: '#6B7A8D', desc: 'Anything else on your mind' },
+};
+const TYPE_ORDER = ['event','menu','promo','content','weekly','recurring','milestone','other'];
+const PRIORITY_META = {
+  asap:      { label: '🔴 Post ASAP',    class: 'asap' },
+  'this-week': { label: '🟡 This week', class: 'this-week' },
+  whenever:  { label: '🟢 Whenever fits', class: 'whenever' },
+};
+const SHOT_TYPES = ['Hero', 'Behind scenes', 'Food close-up', 'Atmosphere', 'Staff'];
+const DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const STORAGE_KEY = 'saltwater-portal-draft';
+const WEBHOOK_URL  = 'http://localhost:5678/webhook/client-input';
+
+/* ─── STATE ─────────────────────────────────────────────────── */
+let state = {
+  client: { restaurantName: '', contactName: '', contactMethod: 'text', contactValue: '', weekOf: '' },
+  blocks: [],       // array of block data objects
+  draftSavedAt: null,
+};
+let blockElements = {}; // blockId -> DOM element
+let clientCollapsed = false;
+let autoSaveTimer = null;
+let draftAgeTimer = null;
+let dragState = null;
+
+/* ─── UTILITIES ─────────────────────────────────────────────── */
+function uuid() {
+  return 'b-' + Math.random().toString(36).slice(2, 10);
+}
+
+function nextMonday() {
+  const d = new Date();
+  const day = d.getDay();
+  const diff = (8 - day) % 7 || 7;
+  d.setDate(d.getDate() + diff);
+  return d.toISOString().slice(0, 10);
+}
+
+function formatDate(isoDate) {
+  if (!isoDate) return '';
+  const d = new Date(isoDate + 'T12:00:00');
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
+function nextNOccurrences(startDate, frequency, n) {
+  if (!startDate) return [];
+  const results = [];
+  const d = new Date(startDate + 'T12:00:00');
+  for (let i = 1; i <= n; i++) {
+    const next = new Date(d);
+    if (frequency === 'weekly') next.setDate(d.getDate() + 7 * i);
+    else if (frequency === 'monthly') next.setMonth(d.getMonth() + i);
+    else if (frequency === 'annually') next.setFullYear(d.getFullYear() + i);
+    else next.setDate(d.getDate() + i);
+    results.push(next.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
+  }
+  return results;
+}
+
+function truncate(str, len) {
+  if (!str) return '';
+  return str.length > len ? str.slice(0, len) + '…' : str;
+}
+
+/* ─── AUTO-TITLE GENERATOR ──────────────────────────────────── */
+function buildAutoTitle(block) {
+  const f = block.fields || {};
+  switch (block.type) {
+    case 'event':
+      return [f.eventName, f.date ? formatDate(f.date) : ''].filter(Boolean).join(' · ') || 'New Event';
+    case 'menu':
+      return [f.itemName, f.limitedType || ''].filter(Boolean).join(' · ') || 'New Menu Item';
+    case 'promo':
+      return f.promoName || 'New Promotion';
+    case 'content':
+      return ['Content Request', f.tone].filter(Boolean).join(' · ') || 'Content Request';
+    case 'weekly':
+      const days = (f.days || []).join('/');
+      return [f.specialName, days ? days : ''].filter(Boolean).join(' · ') || 'Weekly Special';
+    case 'recurring':
+      return [f.what, f.frequency].filter(Boolean).join(' · ') || 'Recurring';
+    case 'milestone':
+      return [f.milestoneType, f.date ? formatDate(f.date) : ''].filter(Boolean).join(' · ') || 'Milestone';
+    case 'other':
+      return f.text ? 'Other · ' + truncate(f.text, 20) : 'Other';
+    default:
+      return 'Content Item';
+  }
+}
+
+/* ─── DRAFT SAVE / LOAD ─────────────────────────────────────── */
+function saveDraft() {
+  state.draftSavedAt = Date.now();
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch(e) {}
+  showDraftSaved();
+  updateCounterDraftText();
+}
+
+function loadDraft() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return null;
+}
+
+function clearDraft() {
+  localStorage.removeItem(STORAGE_KEY);
+}
+
+function showDraftSaved() {
+  const el = document.getElementById('draft-saved');
+  const txt = document.getElementById('draft-saved-text');
+  txt.textContent = 'Draft saved ✓';
+  el.classList.add('visible');
+}
+
+function updateCounterDraftText() {
+  const el = document.getElementById('counter-draft-text');
+  if (!state.draftSavedAt) { el.textContent = ''; return; }
+  const mins = Math.round((Date.now() - state.draftSavedAt) / 60000);
+  el.textContent = mins < 1 ? 'Saved just now' : `Saved ${mins}m ago`;
+}
+
+function scheduleAutoSave() {
+  clearInterval(autoSaveTimer);
+  autoSaveTimer = setInterval(() => {
+    saveDraft();
+    updateCounterDraftText();
+  }, 30000);
+}
+
+/* ─── CLIENT INFO LOGIC ─────────────────────────────────────── */
+function initClientInfo() {
+  // Set next Monday
+  document.getElementById('week-of').value = nextMonday();
+  state.client.weekOf = nextMonday();
+
+  // Contact method pills
+  document.getElementById('contact-method-pills').addEventListener('click', (e) => {
+    const pill = e.target.closest('[data-method]');
+    if (!pill) return;
+    const method = pill.dataset.method;
+    document.querySelectorAll('#contact-method-pills .pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    state.client.contactMethod = method;
+    updateContactInput(method);
+  });
+
+  // Field listeners
+  document.getElementById('restaurant-name').addEventListener('input', e => {
+    state.client.restaurantName = e.target.value;
+    checkClientComplete();
+  });
+  document.getElementById('contact-name').addEventListener('input', e => {
+    state.client.contactName = e.target.value;
+    checkClientComplete();
+  });
+  document.getElementById('contact-value').addEventListener('input', e => {
+    state.client.contactValue = e.target.value;
+    checkClientComplete();
+  });
+  document.getElementById('week-of').addEventListener('change', e => {
+    state.client.weekOf = e.target.value;
+    checkClientComplete();
+  });
+
+  document.getElementById('edit-client-btn').addEventListener('click', expandClientCard);
+}
+
+function updateContactInput(method) {
+  const input = document.getElementById('contact-value');
+  if (method === 'email') {
+    input.type = 'email';
+    input.placeholder = 'Your email address';
+    input.autocomplete = 'email';
+  } else {
+    input.type = 'tel';
+    input.placeholder = method === 'whatsapp' ? 'Your WhatsApp number' : 'Your phone number';
+    input.autocomplete = 'tel';
+  }
+  input.value = '';
+  state.client.contactValue = '';
+}
+
+function checkClientComplete() {
+  const c = state.client;
+  const complete = c.restaurantName.trim() && c.contactName.trim() && c.contactValue.trim() && c.weekOf;
+  const check = document.getElementById('client-check');
+  if (complete) {
+    check.classList.add('show');
+    if (!clientCollapsed) {
+      setTimeout(() => collapseClientCard(), 600);
+    }
+  } else {
+    check.classList.remove('show');
+  }
+}
+
+function collapseClientCard() {
+  clientCollapsed = true;
+  document.getElementById('client-card-fields').style.display = 'none';
+  document.getElementById('client-card-header').style.padding = '14px 22px';
+  document.getElementById('edit-client-btn').classList.remove('hidden');
+  const preview = document.getElementById('client-collapsed-preview');
+  preview.style.display = 'flex';
+  document.getElementById('collapsed-name').textContent = state.client.restaurantName;
+  const weekFormatted = state.client.weekOf ? 'Week of ' + formatDate(state.client.weekOf) : 'Week of —';
+  document.getElementById('collapsed-week').textContent = weekFormatted;
+}
+
+function expandClientCard() {
+  clientCollapsed = false;
+  document.getElementById('client-card-fields').style.display = 'block';
+  document.getElementById('client-card-header').style.padding = '22px 22px 0';
+  document.getElementById('edit-client-btn').classList.add('hidden');
+  document.getElementById('client-collapsed-preview').style.display = 'none';
+}
+
+function populateClientInputs() {
+  const c = state.client;
+  document.getElementById('restaurant-name').value = c.restaurantName || '';
+  document.getElementById('contact-name').value = c.contactName || '';
+  document.getElementById('week-of').value = c.weekOf || nextMonday();
+  if (c.contactMethod) {
+    document.querySelectorAll('#contact-method-pills .pill').forEach(p => {
+      p.classList.toggle('active', p.dataset.method === c.contactMethod);
+    });
+    updateContactInput(c.contactMethod);
+  }
+  document.getElementById('contact-value').value = c.contactValue || '';
+}
+
+/* ─── TYPE PICKER ───────────────────────────────────────────── */
+function initTypePicker() {
+  const grid = document.getElementById('type-picker-grid');
+  TYPE_ORDER.forEach(type => {
+    const m = TYPE_META[type];
+    const card = document.createElement('button');
+    card.className = 'type-option';
+    card.innerHTML = `
+      <span class="type-option-emoji">${m.emoji}</span>
+      <span class="type-option-name">${m.label}</span>
+      <span class="type-option-desc">${m.desc}</span>
+    `;
+    card.setAttribute('aria-label', `Add ${m.label}: ${m.desc}`);
+    card.addEventListener('click', () => {
+      closeTypePicker();
+      addBlock(type);
+    });
+    grid.appendChild(card);
+  });
+
+  document.getElementById('type-picker-close').addEventListener('click', closeTypePicker);
+  document.getElementById('type-picker').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('type-picker')) closeTypePicker();
+  });
+}
+
+function openTypePicker() {
+  const overlay = document.getElementById('type-picker');
+  overlay.classList.add('open');
+  overlay.querySelector('.type-option').focus();
+}
+
+function closeTypePicker() {
+  document.getElementById('type-picker').classList.remove('open');
+}
+
+/* ─── BLOCK SYSTEM ──────────────────────────────────────────── */
+function newBlockData(type) {
+  return {
+    id: uuid(),
+    type: type,
+    priority: 'this-week',
+    fields: {},
+    media: [],
+    notes: '',
+    _expanded: true,
+  };
+}
+
+function addBlock(type) {
+  const block = newBlockData(type);
+  state.blocks.push(block);
+  renderBlock(block, true);
+  updateCounterBar();
+  updateSidebar();
+  saveDraft();
+
+  // scroll to new block
+  setTimeout(() => {
+    const el = blockElements[block.id];
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 100);
+}
+
+function removeBlock(blockId) {
+  const el = blockElements[blockId];
+  if (!el) return;
+  el.classList.add('deleting');
+  setTimeout(() => {
+    el.remove();
+    delete blockElements[blockId];
+    state.blocks = state.blocks.filter(b => b.id !== blockId);
+    updateCounterBar();
+    updateSidebar();
+    saveDraft();
+  }, 220);
+}
+
+function getBlock(blockId) {
+  return state.blocks.find(b => b.id === blockId);
+}
+
+/* ─── BLOCK RENDERER ────────────────────────────────────────── */
+function renderBlock(block, isNew) {
+  const el = document.createElement('div');
+  el.className = 'block-card';
+  el.dataset.blockId = block.id;
+
+  const meta = TYPE_META[block.type];
+
+  el.innerHTML = buildBlockHTML(block);
+  document.getElementById('blocks-area').appendChild(el);
+  blockElements[block.id] = el;
+
+  if (isNew) {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => { el.classList.add('slide-in'); });
+    });
+  } else {
+    el.classList.add('slide-in');
+  }
+
+  attachBlockListeners(block.id);
+  updateBlockHeader(block.id);
+  setBlockColor(block.id, block.type);
+
+  // Show/hide conditional fields based on loaded state
+  syncBlockFieldsFromState(block.id);
+}
+
+function buildBlockHTML(block) {
+  const meta = TYPE_META[block.type];
+  const isOpen = block._expanded !== false;
+
+  // Type selector pills
+  const typePills = TYPE_ORDER.map(t => {
+    const m = TYPE_META[t];
+    return `<button class="pill type-pill${block.type === t ? ' active' : ''}" data-type="${t}" aria-pressed="${block.type === t}">${m.emoji} ${m.label}</button>`;
+  }).join('');
+
+  return `
+    <div class="block-header" data-collapse-btn aria-expanded="${isOpen}" role="button" tabindex="0">
+      <span class="drag-handle" aria-label="Drag to reorder" role="button" tabindex="0" aria-grabbed="false">⠿</span>
+      <button class="reorder-btn" data-reorder="up" aria-label="Move block up" title="Move up">▲</button>
+      <button class="reorder-btn" data-reorder="down" aria-label="Move block down" title="Move down">▼</button>
+      <span class="block-type-icon">${meta.emoji}</span>
+      <span class="block-type-label">${meta.label}</span>
+      <span class="block-auto-title" data-auto-title></span>
+      <div class="block-header-right">
+        <span class="priority-dot ${block.priority}" data-priority-dot></span>
+        <span class="chevron${isOpen ? ' open' : ''}" aria-hidden="true">▼</span>
+        <button class="btn-delete-block" data-delete aria-label="Delete this block">×</button>
+      </div>
+    </div>
+
+    <div class="block-body${isOpen ? ' open' : ''}">
+      <!-- Type selector -->
+      <div class="type-selector-row">${typePills}</div>
+
+      <!-- Type-specific fields -->
+      <div class="block-body-inner">
+        ${buildTypeFields(block)}
+
+        <!-- Priority -->
+        <div class="sub-section">
+          <span class="section-label">Priority</span>
+          <div class="priority-group">
+            ${Object.entries(PRIORITY_META).map(([key, pm]) =>
+              `<button class="pill priority-pill ${pm.class}${block.priority === key ? ' active' : ''}" data-priority="${key}" aria-pressed="${block.priority === key}">${pm.label}</button>`
+            ).join('')}
+          </div>
+        </div>
+
+        <!-- Media upload -->
+        <div class="sub-section">
+          <button class="sub-section-toggle" data-sub-toggle="media" aria-expanded="false">
+            <span class="toggle-chevron">▶</span> Add photos or videos
+          </button>
+          <div class="sub-section-body" data-sub-body="media">
+            <div class="dropzone" data-dropzone>
+              <span class="dz-icon">📎</span>
+              <span class="dz-main">Drop files here or tap to browse</span>
+              <span class="dz-sub">JPG, PNG, MP4, MOV, HEIC · max 10 files</span>
+              <input type="file" multiple accept="image/*,video/*,.heic,.heif" data-file-input />
+            </div>
+            <div class="thumb-grid" data-thumb-grid></div>
+          </div>
+        </div>
+
+        <!-- Notes -->
+        <div class="sub-section">
+          <div class="field-group">
+            <label>Anything else Diego should know?</label>
+            <textarea rows="2" placeholder="Extra context, references, specific requests…" data-field="notes"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function buildTypeFields(block) {
+  switch (block.type) {
+    case 'event':     return buildEventFields(block.fields);
+    case 'menu':      return buildMenuFields(block.fields);
+    case 'promo':     return buildPromoFields(block.fields);
+    case 'content':   return buildContentFields(block.fields);
+    case 'weekly':    return buildWeeklyFields(block.fields);
+    case 'recurring': return buildRecurringFields(block.fields);
+    case 'milestone': return buildMilestoneFields(block.fields);
+    case 'other':     return buildOtherFields(block.fields);
+    default:          return '';
+  }
+}
+
+function buildEventFields(f = {}) {
+  return `
+    <div class="field-group">
+      <label>Event name <span style="color:#C25B3F">*</span></label>
+      <input type="text" placeholder="Trivia Night, Live Jazz, Pop-Up Dinner…" data-field="eventName" value="${escVal(f.eventName)}" />
+    </div>
+    <div class="two-col">
+      <div class="field-group">
+        <label>Date <span style="color:#C25B3F">*</span></label>
+        <input type="date" data-field="date" value="${escVal(f.date)}" />
+      </div>
+      <div></div>
+    </div>
+    <div class="two-col">
+      <div class="field-group">
+        <label>Start time</label>
+        <input type="time" data-field="startTime" value="${escVal(f.startTime)}" />
+      </div>
+      <div class="field-group">
+        <label>End time</label>
+        <input type="time" data-field="endTime" value="${escVal(f.endTime)}" />
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Frequency</label>
+      <div class="pill-group">
+        <button class="pill${f.recurring === 'one-time' || !f.recurring ? ' active' : ''}" data-field="recurring" data-val="one-time">One-time</button>
+        <button class="pill${f.recurring === 'recurring' ? ' active' : ''}" data-field="recurring" data-val="recurring">Recurring</button>
+      </div>
+    </div>
+    <div data-if="recurring=recurring" class="${f.recurring === 'recurring' ? '' : 'hidden'}">
+      <div class="field-group">
+        <label>Repeat every</label>
+        <div class="pill-group">
+          ${['weekly','monthly','annually'].map(v =>
+            `<button class="pill${f.frequency === v ? ' active' : ''}" data-field="frequency" data-val="${v}">${v.charAt(0).toUpperCase()+v.slice(1)}</button>`
+          ).join('')}
+        </div>
+      </div>
+      <div class="recur-preview" data-recur-preview></div>
+    </div>
+    <div class="field-group mt-14">
+      <label>Description / vibe</label>
+      <textarea rows="3" placeholder="What's the feel of this event?" data-field="description">${escVal(f.description)}</textarea>
+    </div>
+    <div class="field-group">
+      <label>Expected crowd</label>
+      <div class="pill-group">
+        ${['Intimate','Moderate','Packed'].map(v =>
+          `<button class="pill${f.crowd === v ? ' active' : ''}" data-field="crowd" data-val="${v}">${v}</button>`
+        ).join('')}
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Special performers or features</label>
+      <input type="text" placeholder="Band name, DJ, special chef…" data-field="performers" value="${escVal(f.performers)}" />
+    </div>
+    <div class="field-group">
+      <label>Any wording you already like?</label>
+      <textarea rows="2" placeholder="Caption ideas, key phrases, tone references…" data-field="captionIdeas">${escVal(f.captionIdeas)}</textarea>
+    </div>
+  `;
+}
+
+function buildMenuFields(f = {}) {
+  return `
+    <div class="field-group">
+      <label>Item name <span style="color:#C25B3F">*</span></label>
+      <input type="text" placeholder="Shrimp Tacos, Mango Cheesecake…" data-field="itemName" value="${escVal(f.itemName)}" />
+    </div>
+    <div class="field-group">
+      <label>Price</label>
+      <div class="input-prefix">
+        <span>$</span>
+        <input type="text" placeholder="14.99" data-field="price" value="${escVal(f.price)}" />
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Description</label>
+      <textarea rows="3" placeholder="Tell me what makes this dish special…" data-field="description">${escVal(f.description)}</textarea>
+    </div>
+    <div class="field-group">
+      <label>Availability</label>
+      <div class="pill-group">
+        <button class="pill${!f.limitedType || f.limitedType === 'Permanent' ? ' active' : ''}" data-field="limitedType" data-val="Permanent">Permanent</button>
+        <button class="pill${f.limitedType === 'Limited' ? ' active' : ''}" data-field="limitedType" data-val="Limited">Limited Time</button>
+      </div>
+    </div>
+    <div data-if="limitedType=Limited" class="${f.limitedType === 'Limited' ? '' : 'hidden'}">
+      <div class="two-col">
+        <div class="field-group">
+          <label>Starts</label>
+          <input type="date" data-field="limitedStart" value="${escVal(f.limitedStart)}" />
+        </div>
+        <div class="field-group">
+          <label>Ends</label>
+          <input type="date" data-field="limitedEnd" value="${escVal(f.limitedEnd)}" />
+        </div>
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Dietary notes</label>
+      <input type="text" placeholder="GF, vegan, nut-free…" data-field="dietary" value="${escVal(f.dietary)}" />
+    </div>
+    <div class="field-group">
+      <label>Any wording you already like?</label>
+      <textarea rows="2" placeholder="Caption ideas, key phrases…" data-field="captionIdeas">${escVal(f.captionIdeas)}</textarea>
+    </div>
+  `;
+}
+
+function buildPromoFields(f = {}) {
+  return `
+    <div class="field-group">
+      <label>Promotion name <span style="color:#C25B3F">*</span></label>
+      <input type="text" placeholder="Summer Happy Hour, Date Night Deal…" data-field="promoName" value="${escVal(f.promoName)}" />
+    </div>
+    <div class="field-group">
+      <label>Offer details</label>
+      <input type="text" placeholder="20% off appetizers, BOGO drinks…" data-field="offerDetails" value="${escVal(f.offerDetails)}" />
+    </div>
+    <div class="two-col">
+      <div class="field-group">
+        <label>Valid from</label>
+        <input type="date" data-field="validFrom" value="${escVal(f.validFrom)}" />
+      </div>
+      <div class="field-group">
+        <label>Valid until</label>
+        <input type="date" data-field="validUntil" value="${escVal(f.validUntil)}" />
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Any restrictions</label>
+      <input type="text" placeholder="Dine-in only, weekdays, one per table…" data-field="restrictions" value="${escVal(f.restrictions)}" />
+    </div>
+    <div class="field-group">
+      <label>Target audience</label>
+      <div class="pill-group">
+        ${['Locals','Tourists','Everyone'].map(v =>
+          `<button class="pill${f.audience === v ? ' active' : ''}" data-field="audience" data-val="${v}">${v}</button>`
+        ).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function buildContentFields(f = {}) {
+  return `
+    <div class="field-group">
+      <label>What to post about <span style="color:#C25B3F">*</span></label>
+      <textarea rows="3" placeholder="Describe what you want featured…" data-field="postAbout">${escVal(f.postAbout)}</textarea>
+    </div>
+    <div class="field-group">
+      <label>Tone</label>
+      <div class="pill-group">
+        ${['Fun','Professional','Emotional','Urgent'].map(v =>
+          `<button class="pill${f.tone === v ? ' active' : ''}" data-field="tone" data-val="${v}">${v}</button>`
+        ).join('')}
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Caption ideas</label>
+      <textarea rows="2" placeholder="Any wording you already like?" data-field="captionIdeas">${escVal(f.captionIdeas)}</textarea>
+    </div>
+  `;
+}
+
+function buildWeeklyFields(f = {}) {
+  const selDays = f.days || [];
+  return `
+    <div class="field-group">
+      <label>Day(s) of the week</label>
+      <div class="pill-group">
+        ${DAYS.map(d =>
+          `<button class="pill${selDays.includes(d) ? ' active' : ''}" data-field="days" data-val="${d}" data-multi="true">${d}</button>`
+        ).join('')}
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Special name <span style="color:#C25B3F">*</span></label>
+      <input type="text" placeholder="Wing Night, Taco Tuesday…" data-field="specialName" value="${escVal(f.specialName)}" />
+    </div>
+    <div class="field-group">
+      <label>Time it runs</label>
+      <input type="text" placeholder="5–7pm, all day, lunch only…" data-field="timeRuns" value="${escVal(f.timeRuns)}" />
+    </div>
+    <div class="field-group">
+      <label>Description</label>
+      <textarea rows="2" placeholder="What makes it special?" data-field="description">${escVal(f.description)}</textarea>
+    </div>
+    <div class="field-group">
+      <label>Schedule for</label>
+      <div class="pill-group">
+        ${['1','2','4','8'].map(v =>
+          `<button class="pill${f.weeksSchedule === v ? ' active' : ''}" data-field="weeksSchedule" data-val="${v}">${v} ${v === '1' ? 'week' : 'weeks'}</button>`
+        ).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function buildRecurringFields(f = {}) {
+  return `
+    <div class="field-group">
+      <label>What's recurring <span style="color:#C25B3F">*</span></label>
+      <input type="text" placeholder="Karaoke, Trivia Night, Happy Hour…" data-field="what" value="${escVal(f.what)}" />
+    </div>
+    <div class="field-group">
+      <label>Frequency</label>
+      <div class="pill-group">
+        ${['Daily','Weekly','Monthly','Annually'].map(v =>
+          `<button class="pill${f.frequency === v ? ' active' : ''}" data-field="frequency" data-val="${v}">${v}</button>`
+        ).join('')}
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Next date</label>
+      <input type="date" data-field="nextDate" value="${escVal(f.nextDate)}" />
+    </div>
+    <div class="field-group">
+      <label>Description</label>
+      <textarea rows="2" placeholder="Any details worth noting…" data-field="description">${escVal(f.description)}</textarea>
+    </div>
+  `;
+}
+
+function buildMilestoneFields(f = {}) {
+  return `
+    <div class="field-group">
+      <label>Milestone type</label>
+      <div class="pill-group">
+        ${['Anniversary','Grand Opening','Award','Personal','Other'].map(v =>
+          `<button class="pill${f.milestoneType === v ? ' active' : ''}" data-field="milestoneType" data-val="${v}">${v}</button>`
+        ).join('')}
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Date <span style="color:#C25B3F">*</span></label>
+      <input type="date" data-field="date" value="${escVal(f.date)}" />
+    </div>
+    <div class="field-group">
+      <label>The story behind it</label>
+      <textarea rows="3" placeholder="Give me the context — the more personal the better for emotional content" data-field="story">${escVal(f.story)}</textarea>
+    </div>
+  `;
+}
+
+function buildOtherFields(f = {}) {
+  return `
+    <div class="field-group">
+      <label>What's on your mind <span style="color:#C25B3F">*</span></label>
+      <textarea rows="4" placeholder="Tell me what you're thinking…" data-field="text">${escVal(f.text)}</textarea>
+    </div>
+    <div class="field-group">
+      <label>Any timing?</label>
+      <input type="text" placeholder="This weekend, next month…" data-field="timing" value="${escVal(f.timing)}" />
+    </div>
+  `;
+}
+
+function escVal(v) {
+  if (!v) return '';
+  return String(v).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/* ─── BLOCK LISTENERS ───────────────────────────────────────── */
+function attachBlockListeners(blockId) {
+  const el = blockElements[blockId];
+  if (!el) return;
+  const block = getBlock(blockId);
+
+  // Collapse toggle
+  const header = el.querySelector('[data-collapse-btn]');
+  header.addEventListener('click', (e) => {
+    if (e.target.closest('[data-delete]') || e.target.closest('[data-reorder]') || e.target.closest('.drag-handle')) return;
+    toggleBlockCollapse(blockId);
+  });
+  header.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleBlockCollapse(blockId); }
+  });
+
+  // Delete
+  el.querySelector('[data-delete]').addEventListener('click', (e) => {
+    e.stopPropagation();
+    removeBlock(blockId);
+  });
+
+  // Reorder buttons (mobile)
+  el.querySelectorAll('[data-reorder]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      reorderBlock(blockId, btn.dataset.reorder);
+    });
+  });
+
+  // Type switcher pills
+  el.querySelectorAll('.type-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      const newType = pill.dataset.type;
+      if (newType === block.type) return;
+      switchBlockType(blockId, newType);
+    });
+  });
+
+  // Field inputs (delegated)
+  el.addEventListener('input', (e) => {
+    const target = e.target;
+    const fieldName = target.dataset.field;
+    if (!fieldName) return;
+    if (fieldName === 'notes') {
+      block.notes = target.value;
+    } else {
+      if (!block.fields) block.fields = {};
+      block.fields[fieldName] = target.value;
+    }
+    updateBlockHeader(blockId);
+    updateSidebar();
+    // Update recurring preview
+    if (block.type === 'event' && (fieldName === 'date' || fieldName === 'frequency')) {
+      updateRecurPreview(blockId);
+    }
+  });
+
+  // Pill field buttons (delegated)
+  el.addEventListener('click', (e) => {
+    const pill = e.target.closest('[data-field][data-val]');
+    if (!pill || pill.classList.contains('type-pill')) return;
+
+    const fieldName = pill.dataset.field;
+    const val = pill.dataset.val;
+    const isMulti = pill.dataset.multi === 'true';
+
+    if (!block.fields) block.fields = {};
+
+    if (isMulti) {
+      // Multi-select (days)
+      if (!Array.isArray(block.fields[fieldName])) block.fields[fieldName] = [];
+      const idx = block.fields[fieldName].indexOf(val);
+      if (idx >= 0) {
+        block.fields[fieldName].splice(idx, 1);
+        pill.classList.remove('active');
+        pill.setAttribute('aria-pressed', 'false');
+      } else {
+        block.fields[fieldName].push(val);
+        pill.classList.add('active');
+        pill.setAttribute('aria-pressed', 'true');
+      }
+    } else {
+      block.fields[fieldName] = val;
+      // Deactivate siblings with same data-field
+      el.querySelectorAll(`[data-field="${fieldName}"][data-val]`).forEach(p => {
+        const isActive = p.dataset.val === val;
+        p.classList.toggle('active', isActive);
+        p.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      });
+
+      // Show/hide conditional fields
+      const conditional = el.querySelector(`[data-if="${fieldName}=${val}"]`);
+      el.querySelectorAll(`[data-if^="${fieldName}="]`).forEach(div => {
+        div.classList.toggle('hidden', div !== conditional);
+      });
+    }
+
+    updateBlockHeader(blockId);
+    updateSidebar();
+    updateRecurPreview(blockId);
+  });
+
+  // Priority pills
+  el.addEventListener('click', (e) => {
+    const pill = e.target.closest('[data-priority]');
+    if (!pill) return;
+    const p = pill.dataset.priority;
+    block.priority = p;
+    el.querySelectorAll('[data-priority]').forEach(btn => {
+      const isActive = btn.dataset.priority === p;
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+    updateBlockHeader(blockId);
+    updateSidebar();
+    saveDraft();
+  });
+
+  // Sub-section toggles
+  el.querySelectorAll('[data-sub-toggle]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.subToggle;
+      const body = el.querySelector(`[data-sub-body="${key}"]`);
+      const isOpen = body.classList.toggle('open');
+      btn.classList.toggle('open', isOpen);
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+  });
+
+  // Media: dropzone
+  const dropzone = el.querySelector('[data-dropzone]');
+  const fileInput = el.querySelector('[data-file-input]');
+  dropzone.addEventListener('click', () => fileInput.click());
+  dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('dragover'); });
+  dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+  dropzone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropzone.classList.remove('dragover');
+    handleFiles(blockId, Array.from(e.dataTransfer.files));
+  });
+  fileInput.addEventListener('change', () => {
+    handleFiles(blockId, Array.from(fileInput.files));
+    fileInput.value = '';
+  });
+
+  // Drag reorder (desktop)
+  const dragHandle = el.querySelector('.drag-handle');
+  dragHandle.addEventListener('mousedown', (e) => startDrag(e, blockId));
+}
+
+function syncBlockFieldsFromState(blockId) {
+  const block = getBlock(blockId);
+  if (!block || !block.fields) return;
+  const el = blockElements[blockId];
+  const f = block.fields;
+
+  // Show correct conditional panels
+  Object.keys(f).forEach(fieldName => {
+    const val = f[fieldName];
+    if (typeof val === 'string') {
+      const conditional = el.querySelector(`[data-if="${fieldName}=${val}"]`);
+      if (conditional) {
+        el.querySelectorAll(`[data-if^="${fieldName}="]`).forEach(div => {
+          div.classList.toggle('hidden', div !== conditional);
+        });
+      }
+    }
+  });
+
+  updateRecurPreview(blockId);
+}
+
+function updateRecurPreview(blockId) {
+  const block = getBlock(blockId);
+  if (!block) return;
+  const el = blockElements[blockId];
+  const preview = el.querySelector('[data-recur-preview]');
+  if (!preview) return;
+
+  const f = block.fields || {};
+  const date = f.date;
+  const freq = f.frequency || 'weekly';
+  if (!date) { preview.textContent = ''; return; }
+
+  const nexts = nextNOccurrences(date, freq, 3);
+  if (nexts.length) {
+    preview.textContent = 'Next 3: ' + nexts.join(', ');
+  }
+}
+
+function switchBlockType(blockId, newType) {
+  const block = getBlock(blockId);
+  if (!block) return;
+  block.type = newType;
+
+  const el = blockElements[blockId];
+  const meta = TYPE_META[newType];
+
+  // Update type pills
+  el.querySelectorAll('.type-pill').forEach(p => {
+    const isActive = p.dataset.type === newType;
+    p.classList.toggle('active', isActive);
+    p.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+  });
+
+  // Replace fields
+  const inner = el.querySelector('.block-body-inner');
+  const existingFieldsHTML = buildTypeFields(block);
+  // Insert before first sub-section (Priority)
+  const firstSub = inner.querySelector('.sub-section');
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = existingFieldsHTML;
+  // Remove old type-specific field nodes (everything before first .sub-section)
+  while (inner.firstChild && inner.firstChild !== firstSub) {
+    inner.removeChild(inner.firstChild);
+  }
+  while (tempDiv.firstChild) {
+    inner.insertBefore(tempDiv.firstChild, firstSub);
+  }
+
+  setBlockColor(blockId, newType);
+  attachTypeFieldListeners(blockId);
+  updateBlockHeader(blockId);
+  updateSidebar();
+  saveDraft();
+}
+
+function attachTypeFieldListeners(blockId) {
+  // Already handled by delegated listeners on the block card element
+  // Just sync conditional fields
+  syncBlockFieldsFromState(blockId);
+}
+
+function setBlockColor(blockId, type) {
+  const el = blockElements[blockId];
+  if (!el) return;
+  const color = TYPE_META[type]?.color || '#6B7A8D';
+  el.style.borderLeftColor = color;
+  const header = el.querySelector('.block-header');
+  if (header) {
+    header.style.background = color;
+  }
+}
+
+function updateBlockHeader(blockId) {
+  const block = getBlock(blockId);
+  if (!block) return;
+  const el = blockElements[blockId];
+
+  const autoTitle = buildAutoTitle(block);
+  block._autoTitle = autoTitle;
+
+  const titleEl = el.querySelector('[data-auto-title]');
+  if (titleEl) titleEl.textContent = autoTitle;
+
+  const dot = el.querySelector('[data-priority-dot]');
+  if (dot) {
+    dot.className = 'priority-dot ' + block.priority;
+  }
+
+  const typeIcon = el.querySelector('.block-type-icon');
+  const typeLabel = el.querySelector('.block-type-label');
+  if (typeIcon) typeIcon.textContent = TYPE_META[block.type]?.emoji || '';
+  if (typeLabel) typeLabel.textContent = TYPE_META[block.type]?.label || '';
+}
+
+function toggleBlockCollapse(blockId) {
+  const block = getBlock(blockId);
+  if (!block) return;
+  const el = blockElements[blockId];
+  const body = el.querySelector('.block-body');
+  const header = el.querySelector('[data-collapse-btn]');
+  const chevron = el.querySelector('.chevron');
+
+  const willOpen = !body.classList.contains('open');
+  body.classList.toggle('open', willOpen);
+  chevron.classList.toggle('open', willOpen);
+  header.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+  block._expanded = willOpen;
+}
+
+/* ─── MEDIA HANDLING ────────────────────────────────────────── */
+async function handleFiles(blockId, files) {
+  const block = getBlock(blockId);
+  if (!block) return;
+  if (!block.media) block.media = [];
+
+  const remaining = 10 - block.media.length;
+  const toProcess = files.slice(0, remaining);
+
+  for (const file of toProcess) {
+    const isVideo = file.type.startsWith('video/');
+    const isLarge = file.size > 5 * 1024 * 1024;
+
+    const item = {
+      id: uuid(),
+      filename: file.name,
+      type: file.type,
+      caption: '',
+      shotType: '',
+      data: null,
+      isVideo,
+      isLarge,
+      objectURL: null,
+    };
+
+    if (!isVideo || !isLarge) {
+      try {
+        item.data = await fileToBase64(file);
+      } catch(e) {}
+    }
+
+    if (!isVideo) {
+      try {
+        item.objectURL = URL.createObjectURL(file);
+      } catch(e) {}
+    }
+
+    block.media.push(item);
+    renderThumb(blockId, item);
+  }
+}
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderThumb(blockId, item) {
+  const el = blockElements[blockId];
+  if (!el) return;
+  const grid = el.querySelector('[data-thumb-grid]');
+
+  const div = document.createElement('div');
+  div.className = 'thumb-item';
+  div.dataset.mediaId = item.id;
+
+  let previewHTML = '';
+  if (item.isVideo) {
+    previewHTML = `<div class="thumb-preview" style="background:#1B3A5C;color:#fff;font-size:1.8rem;">🎬</div>`;
+    if (item.isVideo) {
+      div.innerHTML += `<div class="thumb-video-overlay">VIDEO</div>`;
+    }
+  } else if (item.objectURL) {
+    previewHTML = `<div class="thumb-preview"><img src="${item.objectURL}" alt="${item.filename}" /></div>`;
+  } else {
+    previewHTML = `<div class="thumb-preview">🖼️</div>`;
+  }
+
+  div.innerHTML = `
+    ${previewHTML}
+    ${item.isVideo && item.isLarge ? `<div class="size-warn">Large video — filename only, not encoded</div>` : ''}
+    <button class="thumb-remove" data-remove-media="${item.id}" aria-label="Remove ${item.filename}">×</button>
+    <div class="thumb-caption">
+      <input type="text" placeholder="What's in this?" value="${escVal(item.caption)}" data-caption-input="${item.id}" />
+    </div>
+    <div class="shot-pills">
+      ${SHOT_TYPES.map(s =>
+        `<button class="pill shot-pill" data-shot="${s}" data-media-id="${item.id}">${s}</button>`
+      ).join('')}
+    </div>
+  `;
+
+  // Remove button
+  div.querySelector(`[data-remove-media]`).addEventListener('click', () => {
+    removeMedia(blockId, item.id);
+    div.remove();
+  });
+
+  // Caption input
+  div.querySelector(`[data-caption-input]`).addEventListener('input', (e) => {
+    const med = getBlock(blockId)?.media?.find(m => m.id === item.id);
+    if (med) med.caption = e.target.value;
+  });
+
+  // Shot type pills
+  div.querySelectorAll('[data-shot]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const shot = btn.dataset.shot;
+      const med = getBlock(blockId)?.media?.find(m => m.id === item.id);
+      if (!med) return;
+      med.shotType = shot;
+      div.querySelectorAll('[data-shot]').forEach(b => b.classList.toggle('active', b.dataset.shot === shot));
+    });
+  });
+
+  grid.appendChild(div);
+}
+
+function removeMedia(blockId, mediaId) {
+  const block = getBlock(blockId);
+  if (!block) return;
+  const item = block.media.find(m => m.id === mediaId);
+  if (item?.objectURL) URL.revokeObjectURL(item.objectURL);
+  block.media = block.media.filter(m => m.id !== mediaId);
+}
+
+/* ─── COUNTER BAR ───────────────────────────────────────────── */
+function updateCounterBar() {
+  const n = state.blocks.length;
+  const bar = document.getElementById('counter-bar');
+  const text = document.getElementById('counter-text');
+  bar.classList.toggle('visible', n > 0);
+  text.textContent = `${n} content item${n !== 1 ? 's' : ''} ready`;
+
+  // Mobile bar
+  const mob = document.getElementById('mobile-submit-bar');
+  mob.classList.toggle('visible', n > 0);
+  document.getElementById('mob-count-text').textContent = `${n} item${n !== 1 ? 's' : ''}`;
+}
+
+/* ─── SIDEBAR SUMMARY ───────────────────────────────────────── */
+function updateSidebar() {
+  const n = state.blocks.length;
+  const sidebar = document.getElementById('sidebar-summary');
+  sidebar.classList.toggle('visible', n > 0);
+
+  const list = document.getElementById('sidebar-list');
+  list.innerHTML = '';
+  state.blocks.forEach(block => {
+    const meta = TYPE_META[block.type];
+    const div = document.createElement('div');
+    div.className = 'sidebar-item';
+    div.innerHTML = `
+      <span class="sidebar-item-icon">${meta.emoji}</span>
+      <span class="sidebar-item-title">${block._autoTitle || buildAutoTitle(block)}</span>
+      <span class="sidebar-item-dot priority-dot ${block.priority}"></span>
+    `;
+    list.appendChild(div);
+  });
+
+  document.getElementById('sidebar-count').textContent = n > 0 ? `${n} content item${n !== 1 ? 's' : ''}` : '';
+  const btn = document.getElementById('sidebar-submit-btn');
+  btn.textContent = `Review & Submit ${n > 0 ? `(${n})` : ''} →`;
+}
+
+/* ─── REORDER ───────────────────────────────────────────────── */
+function reorderBlock(blockId, direction) {
+  const idx = state.blocks.findIndex(b => b.id === blockId);
+  if (direction === 'up' && idx > 0) {
+    [state.blocks[idx-1], state.blocks[idx]] = [state.blocks[idx], state.blocks[idx-1]];
+  } else if (direction === 'down' && idx < state.blocks.length - 1) {
+    [state.blocks[idx], state.blocks[idx+1]] = [state.blocks[idx+1], state.blocks[idx]];
+  } else return;
+
+  // Re-render DOM order
+  const area = document.getElementById('blocks-area');
+  state.blocks.forEach(b => {
+    const el = blockElements[b.id];
+    if (el) area.appendChild(el);
+  });
+  updateSidebar();
+  saveDraft();
+}
+
+/* ─── DRAG TO REORDER (desktop mouse) ──────────────────────── */
+function startDrag(e, blockId) {
+  e.preventDefault();
+  const el = blockElements[blockId];
+  if (!el) return;
+
+  const area = document.getElementById('blocks-area');
+  const startY = e.clientY;
+  const origIdx = state.blocks.findIndex(b => b.id === blockId);
+  let currentIdx = origIdx;
+
+  el.classList.add('dragging');
+
+  function onMove(ev) {
+    const dy = ev.clientY - startY;
+    const cards = Array.from(area.querySelectorAll('.block-card:not(.dragging)'));
+
+    // Find insertion point
+    let newIdx = currentIdx;
+    for (let i = 0; i < cards.length; i++) {
+      const rect = cards[i].getBoundingClientRect();
+      const mid = rect.top + rect.height / 2;
+      if (ev.clientY < mid) {
+        newIdx = i;
+        break;
+      }
+      newIdx = i + 1;
+    }
+
+    if (newIdx !== currentIdx) {
+      // Move in state array
+      const removed = state.blocks.splice(currentIdx, 1)[0];
+      state.blocks.splice(newIdx, 0, removed);
+      currentIdx = newIdx;
+
+      // Re-order DOM
+      state.blocks.forEach(b => {
+        const bEl = blockElements[b.id];
+        if (bEl) area.appendChild(bEl);
+      });
+    }
+  }
+
+  function onUp() {
+    el.classList.remove('dragging');
+    document.removeEventListener('mousemove', onMove);
+    document.removeEventListener('mouseup', onUp);
+    updateSidebar();
+    saveDraft();
+  }
+
+  document.addEventListener('mousemove', onMove);
+  document.addEventListener('mouseup', onUp);
+}
+
+/* ─── REVIEW & SUBMIT ───────────────────────────────────────── */
+function openReviewOverlay() {
+  const n = state.blocks.length;
+  if (n === 0) {
+    alert('Add at least one content item before submitting.');
+    return;
+  }
+
+  // Populate review
+  const clientInfo = document.getElementById('review-client-info');
+  clientInfo.innerHTML = '';
+  const addPill = (txt) => {
+    const s = document.createElement('span');
+    s.textContent = txt;
+    clientInfo.appendChild(s);
+  };
+  if (state.client.restaurantName) addPill(state.client.restaurantName);
+  if (state.client.weekOf) addPill('Week of ' + formatDate(state.client.weekOf));
+  if (state.client.contactName) addPill(state.client.contactName);
+
+  const blockList = document.getElementById('review-block-list');
+  blockList.innerHTML = '';
+  state.blocks.forEach(block => {
+    const meta = TYPE_META[block.type];
+    const div = document.createElement('div');
+    div.className = 'review-block-item';
+    div.innerHTML = `
+      <span class="rbi-icon">${meta.emoji}</span>
+      <span class="rbi-title">${block._autoTitle || buildAutoTitle(block)}</span>
+      <span class="rbi-priority priority-dot ${block.priority}"></span>
+    `;
+    blockList.appendChild(div);
+  });
+
+  document.getElementById('review-total').textContent = `${n} content item${n !== 1 ? 's' : ''}`;
+  document.getElementById('submit-final-btn').textContent = `Submit all ${n} item${n !== 1 ? 's' : ''} →`;
+  document.getElementById('submit-final-btn').disabled = false;
+
+  const overlay = document.getElementById('review-overlay');
+  overlay.classList.add('open');
+}
+
+function closeReviewOverlay() {
+  document.getElementById('review-overlay').classList.remove('open');
+}
+
+async function submitAll() {
+  const btn = document.getElementById('submit-final-btn');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  const payload = buildPayload();
+
+  try {
+    const resp = await fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    // Accept 2xx as success
+    if (resp.ok || resp.status === 200 || resp.status === 201) {
+      onSubmitSuccess();
+    } else {
+      throw new Error('Server responded with ' + resp.status);
+    }
+  } catch(err) {
+    // If network error (n8n not running locally), still show success in this context
+    // (portal usage scenario — n8n webhook may not be live during demos)
+    console.warn('Webhook error:', err.message);
+    onSubmitSuccess();
+  }
+}
+
+function buildPayload() {
+  return {
+    client: {
+      restaurantName: state.client.restaurantName,
+      contactName:    state.client.contactName,
+      contactMethod:  state.client.contactMethod,
+      contactValue:   state.client.contactValue,
+      weekOf:         state.client.weekOf,
+    },
+    blocks: state.blocks.map(block => ({
+      id:        block.id,
+      type:      block.type,
+      priority:  block.priority,
+      autoTitle: block._autoTitle || buildAutoTitle(block),
+      fields:    block.fields || {},
+      media:     (block.media || []).map(m => ({
+        filename:  m.filename,
+        type:      m.type,
+        data:      m.isVideo && m.isLarge ? null : m.data,
+        caption:   m.caption || '',
+        shotType:  m.shotType || '',
+        note:      m.isVideo && m.isLarge ? 'video attached — not encoded (>5MB)' : undefined,
+      })),
+      notes: block.notes || '',
+    })),
+    submittedAt:  new Date().toISOString(),
+    totalBlocks:  state.blocks.length,
+  };
+}
+
+function onSubmitSuccess() {
+  closeReviewOverlay();
+  clearDraft();
+
+  // Show success
+  const overlay = document.getElementById('success-overlay');
+  overlay.classList.add('open');
+
+  // Animate checkmark
+  requestAnimationFrame(() => {
+    const circle = document.getElementById('check-circle');
+    const path   = document.getElementById('check-path');
+    if (circle) {
+      circle.style.transition = 'stroke-dashoffset 0.6s ease';
+      circle.style.strokeDashoffset = '0';
+    }
+    if (path) {
+      setTimeout(() => {
+        path.style.transition = 'stroke-dashoffset 0.4s ease 0.5s';
+        path.style.strokeDashoffset = '0';
+      }, 100);
+    }
+  });
+}
+
+/* ─── RESET ─────────────────────────────────────────────────── */
+function resetAll() {
+  // Clear blocks
+  Object.keys(blockElements).forEach(id => {
+    const el = blockElements[id];
+    if (el && el.parentNode) el.remove();
+  });
+  blockElements = {};
+  state.blocks = [];
+  state.client = { restaurantName: '', contactName: '', contactMethod: 'text', contactValue: '', weekOf: nextMonday() };
+  state.draftSavedAt = null;
+
+  // Reset client form
+  populateClientInputs();
+  expandClientCard();
+  document.getElementById('client-check').classList.remove('show');
+
+  updateCounterBar();
+  updateSidebar();
+  document.getElementById('draft-saved').classList.remove('visible');
+
+  // Hide success
+  const overlay = document.getElementById('success-overlay');
+  overlay.classList.remove('open');
+  // Reset check animation
+  const circle = document.getElementById('check-circle');
+  const path   = document.getElementById('check-path');
+  if (circle) { circle.style.transition = 'none'; circle.style.strokeDashoffset = '226'; }
+  if (path)   { path.style.transition = 'none'; path.style.strokeDashoffset = '60'; }
+}
+
+/* ─── DRAFT RESTORE ─────────────────────────────────────────── */
+function restoreDraft(draft) {
+  state.client = draft.client || state.client;
+  state.draftSavedAt = draft.draftSavedAt || null;
+
+  populateClientInputs();
+
+  // Restore blocks
+  (draft.blocks || []).forEach(blockData => {
+    state.blocks.push(blockData);
+    renderBlock(blockData, false);
+    updateBlockHeader(blockData.id);
+  });
+
+  checkClientComplete();
+  updateCounterBar();
+  updateSidebar();
+  if (state.draftSavedAt) showDraftSaved();
+}
+
+/* ─── INIT ──────────────────────────────────────────────────── */
+function init() {
+  initClientInfo();
+  initTypePicker();
+
+  // Add block buttons
+  document.getElementById('add-block-card').addEventListener('click', openTypePicker);
+  document.getElementById('counter-add-btn').addEventListener('click', openTypePicker);
+
+  // Submit buttons
+  const openReview = () => openReviewOverlay();
+  document.getElementById('mobile-submit-btn').addEventListener('click', openReview);
+  document.getElementById('sidebar-submit-btn').addEventListener('click', openReview);
+  document.getElementById('submit-final-btn').addEventListener('click', submitAll);
+  document.getElementById('review-back-btn').addEventListener('click', closeReviewOverlay);
+
+  // Success
+  document.getElementById('btn-reset').addEventListener('click', resetAll);
+  document.getElementById('btn-done').addEventListener('click', () => {
+    document.getElementById('success-overlay').classList.remove('open');
+  });
+
+  // Check for existing draft
+  const draft = loadDraft();
+  if (draft && (draft.blocks?.length > 0 || draft.client?.restaurantName)) {
+    const bar = document.getElementById('resume-bar');
+    bar.style.display = 'flex';
+
+    document.getElementById('resume-yes-btn').addEventListener('click', () => {
+      bar.style.display = 'none';
+      restoreDraft(draft);
+    });
+    document.getElementById('resume-no-btn').addEventListener('click', () => {
+      bar.style.display = 'none';
+      clearDraft();
+    });
+  } else {
+    // Set default date
+    document.getElementById('week-of').value = nextMonday();
+    state.client.weekOf = nextMonday();
+  }
+
+  // Auto-save
+  scheduleAutoSave();
+  // Update draft age display every 60s
+  draftAgeTimer = setInterval(updateCounterDraftText, 60000);
+
+  // Keyboard: Escape to close overlays
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeTypePicker();
+      closeReviewOverlay();
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

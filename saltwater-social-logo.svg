@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+
+  <!-- Background -->
+  <rect width="300" height="300" fill="#ffffff"/>
+
+  <!-- Subtle light beam from lighthouse top -->
+  <polygon points="150,92 88,52 212,52" fill="#D4A843" opacity="0.08"/>
+
+  <!-- Lighthouse body (navy trapezoid) -->
+  <polygon points="120,194 180,194 163,112 137,112" fill="#1B3A5C"/>
+
+  <!-- Gold accent band (horizontal stripe across body) -->
+  <polygon points="125,170 175,170 170,152 130,152" fill="#D4A843"/>
+
+  <!-- Lantern room box (navy) -->
+  <rect x="129" y="100" width="42" height="14" fill="#1B3A5C"/>
+
+  <!-- Lantern window (warm gold glow) -->
+  <rect x="134" y="103" width="32" height="8" fill="#D4A843" opacity="0.45"/>
+
+  <!-- Roof / cap (solid gold triangle) -->
+  <polygon points="125,100 175,100 150,82" fill="#D4A843"/>
+
+  <!-- Wave 1 — navy -->
+  <path d="M62,208 Q90,197 118,208 Q146,219 174,208 Q202,197 230,208"
+        fill="none" stroke="#1B3A5C" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Wave 2 — gold, offset -->
+  <path d="M70,222 Q98,211 126,222 Q154,233 182,222 Q210,211 238,222"
+        fill="none" stroke="#D4A843" stroke-width="1.8" stroke-linecap="round"/>
+
+  <!-- Wordmark: SALTWATER -->
+  <text x="150" y="256"
+        font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+        font-size="21" font-weight="700" fill="#1B3A5C"
+        text-anchor="middle" letter-spacing="2.5">SALTWATER</text>
+
+  <!-- Thin gold rule -->
+  <line x1="92" y1="263" x2="208" y2="263" stroke="#D4A843" stroke-width="0.75"/>
+
+  <!-- Wordmark: SOCIAL -->
+  <text x="150" y="280"
+        font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+        font-size="12" font-weight="400" fill="#D4A843"
+        text-anchor="middle" letter-spacing="6.5">SOCIAL</text>
+
+</svg>

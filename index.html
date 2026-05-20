@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0F2138">
+    <meta name="description" content="Social media management built for coastal Georgia restaurants. Instagram, TikTok & Facebook — fully managed. Starting at $400/month. No contracts. Free 2-week trial.">
+    <meta property="og:title" content="Saltwater Social — Restaurant Social Media">
+    <meta property="og:description" content="We handle your Instagram, TikTok, and Facebook so you can run your restaurant. Built for coastal Georgia.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vldsdiego6002-max.github.io/saltwater-social/">
+    <meta property="og:image" content="https://vldsdiego6002-max.github.io/saltwater-social/og-image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Saltwater Social — Restaurant Social Media for Coastal Georgia">
+    <meta name="twitter:description" content="We handle your Instagram, TikTok, and Facebook so you can run your restaurant. No contracts. Free 2-week trial.">
+    <meta name="twitter:image" content="https://vldsdiego6002-max.github.io/saltwater-social/og-image.jpg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap">
+
+    <title>Saltwater Social — Restaurant Social Media for Coastal Georgia</title>
+
+    <style>
+        /* ============================================================
+           RESET
+           ============================================================ */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ============================================================
+           DESIGN TOKENS
+           ============================================================ */
+        :root {
+            --navy:        #1B3A5C;
+            --gold:        #D4A843;
+            --gold-light:  #E8C97A;
+            --bg:          #FAFAF8;
+            --dark:        #0F2138;
+            --text:        #1A1A2E;
+            --text-muted:  #6B7280;
+            --border:      #E5E7EB;
+            --white:       #FFFFFF;
+
+            --font-display: 'Cormorant Garamond', Georgia, serif;
+            --font-body:    'DM Sans', system-ui, -apple-system, sans-serif;
+
+            --radius-sm:   4px;
+            --radius-md:   8px;
+            --radius-lg:   12px;
+            --radius-xl:   16px;
+        }
+
+        /* ============================================================
+           BASE
+           ============================================================ */
+        html {
+            scroll-behavior: smooth;
+            text-rendering: optimizeLegibility;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 18px;
+            line-height: 1.65;
+            color: var(--text);
+            background: var(--bg);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        img { max-width: 100%; display: block; }
+
+        /* ============================================================
+           ACCESSIBILITY
+           ============================================================ */
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 1rem;
+            background: var(--gold);
+            color: var(--dark);
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            z-index: 999;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            transition: top 0.1s;
+        }
+        .skip-link:focus { top: 1rem; }
+
+        /* ============================================================
+           TYPOGRAPHY
+           ============================================================ */
+        h1 {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            font-weight: 600;
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            font-feature-settings: "kern" 1, "liga" 1;
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4.5vw, 3.2rem);
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: -0.015em;
+            font-feature-settings: "kern" 1, "liga" 1;
+        }
+
+        h3 {
+            font-family: var(--font-display);
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+            font-weight: 600;
+            line-height: 1.25;
+        }
+
+        /* ============================================================
+           LAYOUT
+           ============================================================ */
+        .container {
+            width: 100%;
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        section { padding: 5rem 0; }
+        @media (min-width: 768px) { section { padding: 7rem 0; } }
+
+        .section-label {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* ============================================================
+           BUTTONS
+           ============================================================ */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--dark);
+            background: var(--gold);
+            padding: 1rem 2rem;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 20px rgba(212, 168, 67, 0.35);
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .btn-primary:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(212, 168, 67, 0.45);
+        }
+        .btn-primary:active { transform: translateY(0); }
+
+        .btn-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 500;
+            color: rgba(255,255,255,0.7);
+            background: transparent;
+            padding: 1rem 1.75rem;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: border-color 0.2s ease, color 0.2s ease;
+            white-space: nowrap;
+        }
+        .btn-ghost:hover {
+            border-color: rgba(255,255,255,0.5);
+            color: var(--white);
+        }
+
+        /* ============================================================
+           NAV
+           ============================================================ */
+        .nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 1.1rem 1.5rem;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .nav.scrolled {
+            background-color: var(--dark);
+            box-shadow: 0 2px 24px rgba(0, 0, 0, 0.3);
+        }
+        .nav-inner {
+            max-width: 1040px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo {
+            font-family: var(--font-display);
+            font-size: 1.85rem;
+            font-weight: 600;
+            color: var(--white);
+            text-decoration: none;
+            letter-spacing: 0.01em;
+            line-height: 1;
+        }
+        .nav-logo em {
+            font-style: italic;
+            color: var(--gold);
+        }
+        .nav-links {
+            display: none;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+        @media (min-width: 768px) {
+            .nav-links { display: flex; }
+        }
+        .nav-links a {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: rgba(255,255,255,0.75);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--white); }
+        .nav-cta {
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--dark);
+            background: var(--gold);
+            padding: 0.6rem 1.35rem;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            transition: background 0.2s ease, transform 0.15s ease;
+            white-space: nowrap;
+        }
+        .nav-cta:hover {
+            background: var(--gold-light);
+            transform: translateY(-1px);
+        }
+
+        /* ============================================================
+           HERO
+           ============================================================ */
+        #hero {
+            background: linear-gradient(160deg, #0F2138 0%, #1B3A5C 45%, #0F2138 100%);
+            padding: 0;
+            min-height: 100vh;
+            min-height: 100svh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        #hero::before {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 40%;
+            background: linear-gradient(180deg, transparent 0%, rgba(27,58,92,0.3) 50%, rgba(15,33,56,0.6) 100%);
+            pointer-events: none;
+        }
+        #hero::after {
+            content: '';
+            position: absolute;
+            top: 30%; left: -20%;
+            width: 140%; height: 200px;
+            background: linear-gradient(90deg, transparent, rgba(212,168,67,0.04), transparent);
+            animation: shimmer 6s ease-in-out infinite;
+            transform: rotate(-3deg);
+            pointer-events: none;
+        }
+        @keyframes shimmer {
+            0%, 100% { transform: rotate(-3deg) translateX(-10%); opacity: 0.5; }
+            50%       { transform: rotate(-3deg) translateX(10%); opacity: 1; }
+        }
+        #hero .container {
+            padding-top: 8rem;
+            padding-bottom: 7rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-eyebrow {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(212, 168, 67, 0.8);
+            margin-bottom: 1.4rem;
+        }
+
+        #hero h1 {
+            color: var(--white);
+            max-width: 720px;
+            margin-bottom: 1.5rem;
+        }
+        #hero h1 em {
+            font-style: italic;
+            color: var(--gold);
+        }
+
+        .hero-sub {
+            font-size: clamp(1.05rem, 2.2vw, 1.2rem);
+            color: rgba(255, 255, 255, 0.68);
+            max-width: 520px;
+            line-height: 1.75;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-ctas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .hero-trust {
+            display: block;
+            margin-top: 1.5rem;
+            font-size: 0.82rem;
+            color: rgba(255, 255, 255, 0.38);
+        }
+        .hero-trust strong {
+            color: rgba(212, 168, 67, 0.75);
+            font-weight: 500;
+        }
+
+        /* Wave transition */
+        .wave-bottom {
+            position: absolute;
+            bottom: -1px;
+            left: 0; right: 0;
+            line-height: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .wave-bottom svg { width: 100%; display: block; }
+
+        /* ============================================================
+           STATS SECTION
+           ============================================================ */
+        #stats {
+            background: var(--dark);
+            padding: 5rem 0;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem 1.5rem;
+        }
+        @media (min-width: 768px) {
+            .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 0; }
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem 1rem;
+        }
+        @media (min-width: 768px) {
+            .stat-item {
+                border-right: 1px solid rgba(255,255,255,0.08);
+                padding: 0 2rem;
+            }
+            .stat-item:last-child { border-right: none; }
+        }
+
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 600;
+            color: var(--gold);
+            line-height: 1;
+            letter-spacing: -0.03em;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.45);
+            line-height: 1.5;
+            max-width: 140px;
+            margin: 0 auto;
+        }
+
+        /* ============================================================
+           SERVICES SECTION
+           ============================================================ */
+        #services {
+            background: var(--bg);
+        }
+        .services-head {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 3.5rem;
+        }
+        @media (min-width: 768px) {
+            .services-head {
+                grid-template-columns: 1fr 1fr;
+                gap: 3rem;
+                align-items: start;
+            }
+        }
+        .services-head .section-label { color: var(--gold); }
+        .services-head h2 { color: var(--navy); }
+        .services-intro {
+            font-size: 1.05rem;
+            line-height: 1.75;
+            color: var(--text-muted);
+            max-width: 480px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        @media (min-width: 640px) {
+            .services-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        .service-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 2.25rem 2rem;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+        }
+        .service-card-num {
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gold);
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        .service-card h3 {
+            color: var(--navy);
+            margin-bottom: 0.75rem;
+            font-size: 1.25rem;
+        }
+        .service-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* ============================================================
+           HOW WE WORK
+           ============================================================ */
+        #how {
+            background-color: var(--white);
+            background-image: radial-gradient(circle, rgba(27,58,92,0.03) 1px, transparent 1px);
+            background-size: 22px 22px;
+        }
+        #how .section-label { color: var(--gold); }
+        #how h2 { color: var(--navy); margin-bottom: 3.5rem; }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        @media (min-width: 640px) {
+            .steps-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        .step-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 2.25rem 2rem;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            position: relative;
+        }
+
+        .step-card-num {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 600;
+            color: var(--gold);
+            line-height: 1;
+            letter-spacing: -0.04em;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .step-card-icon {
+            font-size: 1.1rem;
+            display: block;
+            margin-bottom: 0.85rem;
+            opacity: 0.65;
+        }
+
+        .step-card h3 {
+            color: var(--navy);
+            margin-bottom: 0.75rem;
+            font-size: 1.25rem;
+        }
+
+        .step-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* ============================================================
+           PRICING
+           ============================================================ */
+        #pricing {
+            background: var(--bg);
+        }
+        #pricing .section-label { color: var(--gold); }
+        #pricing h2 { color: var(--navy); margin-bottom: 1rem; }
+        #pricing .pricing-intro {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 560px;
+            line-height: 1.75;
+            margin-bottom: 3rem;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+            margin-bottom: 3rem;
+        }
+        @media (min-width: 480px) {
+            .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (min-width: 900px) {
+            .pricing-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+
+        .pricing-card {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: 2rem 1.75rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            position: relative;
+        }
+
+        .pricing-save {
+            display: inline-block;
+            background: rgba(212, 168, 67, 0.12);
+            color: #9B6E1A;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-locations {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 0.2rem;
+        }
+
+        .pricing-price {
+            font-family: var(--font-display);
+            font-size: 2.8rem;
+            font-weight: 600;
+            color: var(--navy);
+            line-height: 1;
+            letter-spacing: -0.03em;
+        }
+        .pricing-price sup {
+            font-size: 1.1rem;
+            vertical-align: top;
+            margin-top: 0.4rem;
+            font-weight: 400;
+        }
+        .pricing-period {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0;
+        }
+
+        /* Included list — shared across all packages */
+        .pricing-included-wrap {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 2.25rem 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+        }
+        .pricing-included-wrap h3 {
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 1.25rem;
+        }
+        .pricing-included {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.6rem;
+        }
+        @media (min-width: 640px) {
+            .pricing-included { grid-template-columns: 1fr 1fr; }
+        }
+        .pricing-included li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.65rem;
+            font-size: 0.95rem;
+            color: var(--text);
+            line-height: 1.5;
+        }
+        .pricing-included li::before {
+            content: '✓';
+            color: var(--gold);
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 0.05rem;
+        }
+
+        /* Your content, our expertise */
+        .expertise-block {
+            background: rgba(27,58,92,0.04);
+            border-left: 3px solid var(--gold);
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2.5rem;
+        }
+        .expertise-block p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.75;
+            max-width: 680px;
+        }
+        .expertise-block strong {
+            display: block;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 0.4rem;
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+        }
+
+        /* Always in the loop */
+        .loop-block {
+            border-left: 3px solid var(--gold);
+            padding: 0.25rem 0 0.25rem 1.75rem;
+            margin-bottom: 2.5rem;
+        }
+        .loop-block strong {
+            display: block;
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 0.6rem;
+        }
+        .loop-block p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            max-width: 680px;
+        }
+
+        /* Add-ons */
+        .addons-section {
+            margin-bottom: 2.5rem;
+        }
+        .addons-label {
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .addons-headline {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 1.25rem;
+        }
+        .addons-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .addons-list li {
+            display: flex;
+            align-items: baseline;
+            gap: 0.75rem;
+            font-size: 0.95rem;
+            color: var(--text);
+            line-height: 1.55;
+        }
+        .addons-list li::before {
+            content: '+';
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        .addons-price {
+            font-weight: 600;
+            color: var(--navy);
+            white-space: nowrap;
+        }
+
+        .pricing-note {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+        }
+        .pricing-note strong {
+            display: block;
+            color: var(--text);
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        /* ============================================================
+           CTA SECTION
+           ============================================================ */
+        #cta {
+            background: var(--dark);
+            position: relative;
+            overflow: hidden;
+        }
+        #cta::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 60% 50% at 85% 85%, rgba(44, 84, 128, 0.35) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        #cta .container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+        #cta .section-label { color: var(--gold); text-align: center; }
+        #cta h2 {
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+        #cta p {
+            color: rgba(255,255,255,0.6);
+            font-size: 1.1rem;
+            max-width: 520px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.75;
+        }
+
+        /* ============================================================
+           CONTACT / FOOTER
+           ============================================================ */
+        #contact {
+            background: var(--dark);
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        #contact::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 60% 50% at 15% 85%, rgba(44, 84, 128, 0.25) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        #contact .container { position: relative; z-index: 1; }
+
+        .contact-form {
+            max-width: 520px;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2.75rem;
+        }
+        .contact-form h2 {
+            color: var(--white);
+            margin-bottom: 0.25rem;
+        }
+        .contact-lead {
+            color: rgba(255,255,255,0.55);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .form-row {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        @media (min-width: 540px) {
+            .form-row { flex-direction: row; }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            flex: 1;
+        }
+        .form-group label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.4);
+        }
+        .form-group input,
+        .form-group textarea {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            color: var(--white);
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-md);
+            padding: 0.8rem 1rem;
+            width: 100%;
+            transition: border-color 0.2s ease, background 0.2s ease;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: rgba(212, 168, 67, 0.55);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 110px;
+        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder { color: rgba(255, 255, 255, 0.22); }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        @media (min-width: 480px) {
+            .contact-links {
+                flex-direction: row;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 1.5rem;
+            }
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.55);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .contact-link:hover { color: var(--gold); }
+        .cl-icon {
+            width: 36px; height: 36px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-md);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem;
+            transition: background 0.2s ease;
+            flex-shrink: 0;
+        }
+        .contact-link:hover .cl-icon { background: rgba(212, 168, 67, 0.15); }
+
+        /* ============================================================
+           FOOTER
+           ============================================================ */
+        footer {
+            background: #080F18;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        footer p {
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 0.78rem;
+        }
+        footer a {
+            color: rgba(255,255,255,0.35);
+            text-decoration: none;
+        }
+        footer a:hover { color: rgba(212,168,67,0.7); }
+
+        /* ============================================================
+           MOBILE STICKY CTA (bottom-right, hidden on desktop)
+           ============================================================ */
+        .sticky-cta {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--gold);
+            color: var(--dark);
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 100px;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(212,168,67,0.4);
+            z-index: 90;
+            transition: transform 0.2s, box-shadow 0.2s, opacity 0.3s;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .sticky-cta.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .sticky-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(212,168,67,0.5);
+        }
+        @media (min-width: 768px) { .sticky-cta { display: none; } }
+
+        /* ============================================================
+           BOOKING BUTTON PULSE
+           ============================================================ */
+        @keyframes btn-pulse {
+            0%, 100% { box-shadow: 0 4px 20px rgba(212, 168, 67, 0.35); }
+            50%       { box-shadow: 0 6px 32px rgba(212, 168, 67, 0.6), 0 0 0 6px rgba(212, 168, 67, 0.1); }
+        }
+        @media (prefers-reduced-motion: no-preference) {
+            .btn-pulse { animation: btn-pulse 3.2s ease-in-out infinite; }
+        }
+
+        /* ============================================================
+           EXPECTATIONS SECTION
+           ============================================================ */
+        #expectations {
+            background: var(--navy);
+            position: relative;
+            overflow: hidden;
+        }
+        #expectations::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 70% 60% at 20% 50%, rgba(212,168,67,0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        #expectations .container { position: relative; z-index: 1; }
+        #expectations .section-label { color: var(--gold); }
+
+        .expectations-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            margin-top: 2.5rem;
+        }
+        @media (min-width: 768px) {
+            .expectations-grid { grid-template-columns: 1fr 1fr; gap: 3rem 5rem; }
+        }
+
+        .exp-item { display: flex; gap: 1.25rem; align-items: flex-start; }
+        .exp-icon {
+            width: 44px; height: 44px;
+            background: rgba(212,168,67,0.12);
+            border-radius: var(--radius-md);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        .exp-body h3 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+        }
+        .exp-body p {
+            font-size: 0.92rem;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.75;
+        }
+
+        .expectations-headline {
+            color: var(--white);
+            margin-bottom: 0.5rem;
+        }
+        .expectations-lead {
+            color: rgba(255,255,255,0.55);
+            font-size: 1.05rem;
+            max-width: 560px;
+            line-height: 1.75;
+        }
+
+        /* ============================================================
+           FAQ SECTION
+           ============================================================ */
+        #faq {
+            background: var(--bg);
+        }
+        #faq .section-label { color: var(--gold); }
+        #faq h2 { color: var(--navy); margin-bottom: 3rem; }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+        }
+
+        .faq-item {
+            background: var(--white);
+        }
+        .faq-item:not(:last-child) { border-bottom: 1px solid var(--border); }
+
+        .faq-question {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 1.6rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+            font-family: var(--font-display);
+            font-size: clamp(1.05rem, 2vw, 1.25rem);
+            font-weight: 600;
+            color: var(--navy);
+            line-height: 1.3;
+            transition: color 0.2s ease;
+        }
+        .faq-question:hover { color: var(--gold); }
+        .faq-chevron {
+            font-size: 0.85rem;
+            color: var(--gold);
+            flex-shrink: 0;
+            transition: transform 0.25s ease;
+            opacity: 0.75;
+        }
+        .faq-item.open .faq-chevron { transform: rotate(180deg); }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease, padding 0.25s ease;
+        }
+        .faq-item.open .faq-answer { max-height: 200px; }
+        .faq-answer-inner {
+            padding: 0 2rem 1.6rem;
+            font-size: 0.98rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            max-width: 680px;
+        }
+
+        /* ============================================================
+           SCROLL REVEAL
+           ============================================================ */
+        @media (prefers-reduced-motion: no-preference) {
+            .animate-in {
+                opacity: 0;
+                transform: translateY(28px);
+                transition: opacity 0.55s ease, transform 0.55s ease;
+            }
+            .animate-in.visible {
+                opacity: 1;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <!-- ============================================================
+         NAV
+         ============================================================ -->
+    <nav class="nav" aria-label="Main navigation">
+        <div class="nav-inner">
+            <a href="#hero" class="nav-logo" aria-label="Saltwater Social home">Saltwater <em>Social</em></a>
+            <ul class="nav-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#how">How It Works</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+            <a href="https://cal.com/saltwater-social-g2hqpk" target="_blank" rel="noopener" class="nav-cta">Book a Free Call</a>
+        </div>
+    </nav>
+
+    <main id="main">
+
+    <!-- ============================================================
+         HERO
+         ============================================================ -->
+    <section id="hero" aria-labelledby="hero-heading">
+        <div class="container">
+            <span class="hero-eyebrow" aria-hidden="true">Social Media Management · Coastal Georgia</span>
+            <h1 id="hero-heading">Your Restaurant<br>Deserves to <em>Be Seen.</em></h1>
+            <p class="hero-sub">
+                We handle your Instagram, TikTok, Facebook, and content so you can run your restaurant.
+                Reels, scheduling, engagement — done for you.
+            </p>
+            <div class="hero-ctas">
+                <a href="https://cal.com/saltwater-social-g2hqpk" target="_blank" rel="noopener" class="btn-primary btn-pulse">Book a Free Call</a>
+                <a href="#pricing" class="btn-ghost">See Pricing →</a>
+            </div>
+            <span class="hero-trust">
+                <strong>No contracts · Free 2-week trial · Results in 30 days</strong>
+            </span>
+        </div>
+        <div class="wave-bottom" aria-hidden="true">
+            <svg viewBox="0 0 1440 64" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                <path d="M0,32 C360,64 1080,0 1440,32 L1440,64 L0,64 Z" fill="#0F2138"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         STATS
+         ============================================================ -->
+    <section id="stats" aria-label="Key results">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item animate-in">
+                    <span class="stat-number">74%</span>
+                    <p class="stat-label">of diners research restaurants online first</p>
+                </div>
+                <div class="stat-item animate-in">
+                    <span class="stat-number">31%</span>
+                    <p class="stat-label">avg follower growth in 60 days</p>
+                </div>
+                <div class="stat-item animate-in">
+                    <span class="stat-number">2.3x</span>
+                    <p class="stat-label">engagement multiplier vs. average accounts</p>
+                </div>
+                <div class="stat-item animate-in">
+                    <span class="stat-number">0</span>
+                    <p class="stat-label">competitors targeting coastal GA restaurants</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SERVICES
+         ============================================================ -->
+    <section id="services" aria-labelledby="services-heading">
+        <div class="container">
+            <div class="services-head">
+                <div>
+                    <span class="section-label">What you get</span>
+                    <h2 id="services-heading">Everything your restaurant needs to grow online.</h2>
+                </div>
+                <p class="services-intro">
+                    Everything included. Every platform. Cancel anytime. Every service we offer is built
+                    around how coastal restaurants actually attract new guests — and it's all done for you.
+                </p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card animate-in">
+                    <span class="service-card-num">01</span>
+                    <h3>Reels &amp; Short Video</h3>
+                    <p>Scroll-stopping content that shows off your food, your team, and your atmosphere. We script, shoot (or direct remote), and edit.</p>
+                </div>
+                <div class="service-card animate-in">
+                    <span class="service-card-num">02</span>
+                    <h3>Instagram, TikTok &amp; Facebook Management</h3>
+                    <p>Consistent posting, community engagement, and trend-tapping — all three platforms handled. You stay off your phone, we stay on it.</p>
+                </div>
+                <div class="service-card animate-in">
+                    <span class="service-card-num">03</span>
+                    <h3>Content Strategy</h3>
+                    <p>Monthly content plans tied to your specials, events, and seasons. No guessing what to post — we build it around your actual story.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         HOW WE WORK
+         ============================================================ -->
+    <section id="how" aria-labelledby="how-heading">
+        <div class="container">
+            <span class="section-label">The process</span>
+            <h2 id="how-heading">Three steps.<br>Then we take it from there.</h2>
+            <div class="steps-grid">
+                <div class="step-card animate-in">
+                    <span class="step-card-num">01</span>
+                    <span class="step-card-icon" aria-hidden="true">📋</span>
+                    <h3>We Learn Your Restaurant</h3>
+                    <p>One onboarding call. We study your vibe, your menu, your regulars. Then we build a content plan around your actual story — not a template.</p>
+                </div>
+                <div class="step-card animate-in">
+                    <span class="step-card-num">02</span>
+                    <span class="step-card-icon" aria-hidden="true">🎬</span>
+                    <h3>We Create Everything</h3>
+                    <p>Reels, captions, graphics, hashtag strategy — all done for you across Instagram, TikTok, and Facebook. Delivered for approval every week so you always stay in control.</p>
+                </div>
+                <div class="step-card animate-in">
+                    <span class="step-card-num">03</span>
+                    <span class="step-card-icon" aria-hidden="true">📈</span>
+                    <h3>You See the Results</h3>
+                    <p>Watch your follower count climb and your tables fill. Monthly reports show you exactly what's working — in plain English, no dashboards.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         PRICING
+         ============================================================ -->
+    <section id="pricing" aria-labelledby="pricing-heading">
+        <div class="container">
+            <span class="section-label">Pricing</span>
+            <h2 id="pricing-heading">Simple pricing. Every platform. No contracts.</h2>
+            <p class="pricing-intro">
+                All packages include Instagram, TikTok, and Facebook — fully managed.
+                The more locations you have, the better the deal.
+            </p>
+
+            <div class="pricing-grid">
+                <div class="pricing-card animate-in">
+                    <div class="pricing-locations">1 Location</div>
+                    <div class="pricing-price"><sup>$</sup>400</div>
+                    <div class="pricing-period">/month</div>
+                </div>
+                <div class="pricing-card animate-in">
+                    <div class="pricing-save">Save $100</div>
+                    <div class="pricing-locations">2 Locations</div>
+                    <div class="pricing-price"><sup>$</sup>700</div>
+                    <div class="pricing-period">/month</div>
+                </div>
+                <div class="pricing-card animate-in">
+                    <div class="pricing-save">Save $250</div>
+                    <div class="pricing-locations">3 Locations</div>
+                    <div class="pricing-price"><sup>$</sup>950</div>
+                    <div class="pricing-period">/month</div>
+                </div>
+                <div class="pricing-card animate-in">
+                    <div class="pricing-save">Save $400</div>
+                    <div class="pricing-locations">4 Locations</div>
+                    <div class="pricing-price"><sup>$</sup>1,200</div>
+                    <div class="pricing-period">/month</div>
+                </div>
+            </div>
+
+            <div class="pricing-included-wrap animate-in">
+                <h3>Everything included in every package</h3>
+                <ul class="pricing-included">
+                    <li>Instagram, TikTok &amp; Facebook — fully managed</li>
+                    <li>4–5 Reels per week per location</li>
+                    <li>Captions, hashtags &amp; scheduling</li>
+                    <li>Trending audio research weekly</li>
+                    <li>4–5 Stories per week</li>
+                    <li>Comment &amp; DM engagement</li>
+                    <li>Monthly performance report</li>
+                    <li>Biweekly content shoot at your location</li>
+                </ul>
+            </div>
+
+            <div class="loop-block animate-in">
+                <strong>Always in the loop</strong>
+                <p>Every client gets access to a simple update portal. Hosting a live music night? Running a weekend special? New item hitting the menu? Send us the details — or just a quick photo — and we'll have it posted within 24 hours. We stay plugged into what's happening at your restaurant so your social media always reflects what's actually going on, not just scheduled content from two weeks ago.</p>
+            </div>
+
+            <div class="addons-section animate-in">
+                <span class="addons-label">Optional</span>
+                <div class="addons-headline">Want more? Add on what you need.</div>
+                <ul class="addons-list">
+                    <li>Restaurant website &nbsp;<span class="addons-price">$350 one-time + $15/month hosting</span></li>
+                    <li>Event coverage (we show up &amp; film) &nbsp;<span class="addons-price">$150/event</span></li>
+                    <li>Paid ads management &nbsp;<span class="addons-price">+$200/month</span></li>
+                </ul>
+            </div>
+
+            <div class="pricing-note animate-in">
+                <span aria-hidden="true">🌊</span>
+                <div>
+                    <strong>Free 2-week trial — Saint Marys &amp; the Golden Isles</strong>
+                    We're currently offering a free 2-week trial to our first clients in Saint Marys and the Golden Isles. This offer won't last — once we're at capacity, it's gone.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         EXPECTATIONS
+         ============================================================ -->
+    <section id="expectations" aria-labelledby="expectations-heading">
+        <div class="container">
+            <span class="section-label">Straight talk</span>
+            <h2 id="expectations-heading" class="expectations-headline">Results take time.<br>The work starts day one.</h2>
+            <p class="expectations-lead">
+                We're not going to promise you viral overnight. Real social media growth is consistent, compounding work — and that's exactly what we do.
+            </p>
+            <div class="expectations-grid">
+                <div class="exp-item animate-in">
+                    <div class="exp-icon" aria-hidden="true">📅</div>
+                    <div class="exp-body">
+                        <h3>Week 1: We're in your restaurant</h3>
+                        <p>Onboarding call, content shoot, account audit. By the end of week one, we know your menu, your vibe, and your story — and we're already posting.</p>
+                    </div>
+                </div>
+                <div class="exp-item animate-in">
+                    <div class="exp-icon" aria-hidden="true">📊</div>
+                    <div class="exp-body">
+                        <h3>Month 1: Foundation is built</h3>
+                        <p>Content cadence is live, engagement is happening, and the algorithm is starting to learn your account. Follower growth is early but real.</p>
+                    </div>
+                </div>
+                <div class="exp-item animate-in">
+                    <div class="exp-icon" aria-hidden="true">📈</div>
+                    <div class="exp-body">
+                        <h3>Months 2–3: Momentum kicks in</h3>
+                        <p>This is where you start seeing follower growth, more table inquiries, and content that actually reaches new people — not just your existing regulars.</p>
+                    </div>
+                </div>
+                <div class="exp-item animate-in">
+                    <div class="exp-icon" aria-hidden="true">🌊</div>
+                    <div class="exp-body">
+                        <h3>Long-term: Compounding returns</h3>
+                        <p>Every Reel, every story, every reply builds on what came before. The restaurants that stay consistent are the ones that own their town online. That's the goal.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         FAQ
+         ============================================================ -->
+    <section id="faq" aria-labelledby="faq-heading">
+        <div class="container">
+            <span class="section-label">Common questions</span>
+            <h2 id="faq-heading">You asked, we answered.</h2>
+            <div class="faq-list animate-in">
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        Do I need to provide content?
+                        <span class="faq-chevron" aria-hidden="true">▼</span>
+                    </button>
+                    <div class="faq-answer" role="region">
+                        <div class="faq-answer-inner">
+                            No. We film everything. Our biweekly shoots at your location cover Reels, food shots, behind-the-scenes footage, and anything else your content plan calls for. You just run your restaurant — we handle the camera.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        How fast will I see results?
+                        <span class="faq-chevron" aria-hidden="true">▼</span>
+                    </button>
+                    <div class="faq-answer" role="region">
+                        <div class="faq-answer-inner">
+                            Real, lasting growth takes 30–90 days. You'll see content go live in week one, early engagement within the first month, and meaningful follower growth and reach by month two or three. We don't promise viral — we promise consistent work that compounds over time.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        What if I don't like the content?
+                        <span class="faq-chevron" aria-hidden="true">▼</span>
+                    </button>
+                    <div class="faq-answer" role="region">
+                        <div class="faq-answer-inner">
+                            We revise it — within 24 hours, no questions asked. Every piece of content goes through an approval step before it posts, so you always have the final say. If something isn't right, tell us and we fix it. Simple as that.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        Do I have to sign a contract?
+                        <span class="faq-chevron" aria-hidden="true">▼</span>
+                    </button>
+                    <div class="faq-answer" role="region">
+                        <div class="faq-answer-inner">
+                            No contracts. Cancel anytime — no penalties, no awkward conversations. We work month-to-month because we believe the results should keep you around, not fine print.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         CTA SECTION
+         ============================================================ -->
+    <section id="cta" aria-labelledby="cta-heading">
+        <div class="container">
+            <span class="section-label">Get started</span>
+            <h2 id="cta-heading">Ready to fill your tables?</h2>
+            <p>Book a free 20-minute call. We'll show you exactly what a month of Saltwater Social content looks like for your restaurant.</p>
+            <a href="https://cal.com/saltwater-social-g2hqpk" target="_blank" rel="noopener" class="btn-primary btn-pulse">Book a Free Call</a>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         CONTACT
+         ============================================================ -->
+    <section id="contact" aria-labelledby="contact-heading">
+        <div class="container">
+            <form class="contact-form" id="contact-form" novalidate aria-label="Contact form">
+                <h2 id="contact-heading">I'd rather grab a coffee<br>than send you a proposal.</h2>
+                <p class="contact-lead">
+                    If you own or run a restaurant anywhere in coastal Georgia or North Florida, let's talk. No sales pitch — just a real conversation about whether this makes sense for you.
+                </p>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="contact-name">Your name</label>
+                        <input type="text" id="contact-name" name="name" placeholder="First name" autocomplete="given-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-restaurant">Restaurant name</label>
+                        <input type="text" id="contact-restaurant" name="restaurant" placeholder="Your spot" autocomplete="organization">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="contact-message">What's your biggest challenge right now?</label>
+                    <textarea id="contact-message" name="message" placeholder="No wrong answers — just getting to know each other."></textarea>
+                </div>
+                <button type="submit" class="btn-primary" style="align-self: flex-start;">Send it →</button>
+            </form>
+            <div class="contact-links">
+                <a href="mailto:saltwatersocial@proton.me" class="contact-link">
+                    <span class="cl-icon" aria-hidden="true">✉️</span>
+                    saltwatersocial@proton.me
+                </a>
+                <a href="https://instagram.com/saltwater_social.co" target="_blank" rel="noopener noreferrer" class="contact-link" aria-label="Follow @saltwater_social.co on Instagram">
+                    <span class="cl-icon" aria-hidden="true">📸</span>
+                    @saltwater_social.co
+                </a>
+            </div>
+        </div>
+    </section>
+
+    </main>
+
+    <!-- ============================================================
+         FOOTER
+         ============================================================ -->
+    <footer role="contentinfo">
+        <p>© 2026 Saltwater Social · Coastal Georgia · <a href="mailto:saltwatersocial@proton.me">saltwatersocial@proton.me</a></p>
+    </footer>
+
+    <!-- ============================================================
+         MOBILE STICKY CTA
+         ============================================================ -->
+    <a href="https://cal.com/saltwater-social-g2hqpk" target="_blank" rel="noopener" class="sticky-cta" id="sticky-cta" aria-label="Book a free call">Book a Free Call ↗</a>
+
+    <script>
+        // --- Nav: transparent → dark on scroll ---
+        const nav = document.querySelector('.nav');
+        const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 60);
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+
+        // --- Intersection Observer scroll reveal ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.animate-in').forEach(el => observer.observe(el));
+
+        // --- Mobile sticky CTA: show after hero, hide at contact ---
+        const stickyCta = document.getElementById('sticky-cta');
+        const heroEl = document.getElementById('hero');
+        const contactEl = document.getElementById('contact');
+
+        new IntersectionObserver(
+            entries => entries.forEach(e => stickyCta.classList.toggle('show', !e.isIntersecting)),
+            { threshold: 0 }
+        ).observe(heroEl);
+
+        new IntersectionObserver(
+            entries => entries.forEach(e => { if (e.isIntersecting) stickyCta.classList.remove('show'); }),
+            { threshold: 0.05 }
+        ).observe(contactEl);
+
+        stickyCta.addEventListener('click', () => stickyCta.classList.remove('show'));
+
+        // --- FAQ accordion ---
+        document.querySelectorAll('.faq-question').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.closest('.faq-item');
+                const isOpen = item.classList.contains('open');
+                // Close all
+                document.querySelectorAll('.faq-item.open').forEach(el => {
+                    el.classList.remove('open');
+                    el.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+                });
+                // Open clicked (unless it was already open)
+                if (!isOpen) {
+                    item.classList.add('open');
+                    btn.setAttribute('aria-expanded', 'true');
+                }
+            });
+        });
+
+        // --- Contact form → mailto ---
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name       = document.getElementById('contact-name').value.trim();
+            const restaurant = document.getElementById('contact-restaurant').value.trim();
+            const message    = document.getElementById('contact-message').value.trim();
+            const subject = encodeURIComponent(
+                "Let's grab a coffee" + (restaurant ? ' — ' + restaurant : '')
+            );
+            const body = encodeURIComponent(
+                (name       ? "Hi, I'm " + name + ".\n\n"        : '') +
+                (restaurant ? 'Restaurant: ' + restaurant + "\n\n" : '') +
+                (message    ? message : "I'd like to connect about Saltwater Social.")
+            );
+            window.location.href = 'mailto:saltwatersocial@proton.me?subject=' + subject + '&body=' + body;
+        });
+    </script>
+
+</body>
+</html>
